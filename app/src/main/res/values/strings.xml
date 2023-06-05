@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AlmaGestor</string>
+    <string name="Login">Inicio Sesión</string>
+    <string name="Username">Usuario</string>
+    <string name="Password">Contraseña</string>
+    <string name="UsuarioNuevo">¿Primer inicio de sesión?, Empieza ahora</string>
 </resources>
