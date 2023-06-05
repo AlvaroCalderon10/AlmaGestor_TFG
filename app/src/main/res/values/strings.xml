@@ -2,6 +2,17 @@
     <string name="app_name">AlmaGestor</string>
     <string name="Login">Inicio Sesión</string>
     <string name="Username">Usuario</string>
+    <string name="PDV">Usuario (Código PDV)</string>
     <string name="Password">Contraseña</string>
     <string name="UsuarioNuevo">¿Primer inicio de sesión?, Empieza ahora</string>
+    <string name="Register">Registro</string>
+    <string name="Welcome">¡Bienvenido!</string>
+    <string name="storeName">Nombre Tienda</string>
+    <string name="Eslogan">Organiza, controla y optimiza tus almacenes con AlmaGestor, tu solución inteligente de gestión</string>
+    <string name="IngresaCorreo">Ingresa tu correo:</string>
+    <string name="RecoverPassword">Recuperación de contraseña</string>
+    <string name="email">Email</string>
+    <string name="recover">Recuperar</string>
+    <string name="msgCorreo">Se enviará un correo electrónico con todos los pasos a seguir para recuperar la contraseña</string>
+    <string name="forgotPassword">¿Ha olvidado la contraseña?</string>
 </resources>

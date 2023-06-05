@@ -28,7 +28,7 @@ public class SqliteModel {
             Cursor c = db.rawQuery("SELECT  groupeid, codepdv, company_name, Password FROM user Limit ?", new String[] {"1"});
             if(c.moveToFirst()){
                 do{
-                    Integer groupeid=c.getInt(0);
+                    String groupeid=c.getString(0);
                     String codepdv=c.getString(1);
                     String company_name=c.getString(2);
                     String password=c.getString(3);

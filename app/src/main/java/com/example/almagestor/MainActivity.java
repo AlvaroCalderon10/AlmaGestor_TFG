@@ -2,19 +2,25 @@ package com.example.almagestor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.almagestor.DTOs.UserDTO;
+import com.example.almagestor.Login.ForgotPassword;
+import com.example.almagestor.Login.NewUser;
 import com.example.almagestor.Sqlite.SqliteModel;
 
 public class MainActivity extends AppCompatActivity {
     EditText username;
     EditText password;
     Button loginButton;
+    TextView new_user;
+    TextView forgotPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
+        new_user=findViewById(R.id.signupText);
+        forgotPassword=findViewById(R.id.forgotPassword);
         UserDTO user_data= DB_local.getFromLocal(MainActivity.this);
         if(user_data==null){
             //Buscar en ExternalDB
@@ -41,5 +49,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        new_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(MainActivity.this, NewUser.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(MainActivity.this, ForgotPassword.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 }

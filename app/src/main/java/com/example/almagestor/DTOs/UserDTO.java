@@ -2,13 +2,13 @@ package com.example.almagestor.DTOs;
 
 public class UserDTO {
 
-    private Integer groupeid;
+    private String groupeid;
     private String codePDV;
     private String Password;
 
     private String company_name;
 
-    public UserDTO(Integer groupeid, String codePDV, String password, String company_name) {
+    public UserDTO(String groupeid, String codePDV, String password, String company_name) {
         this.groupeid = groupeid;
         this.codePDV = codePDV;
         Password = password;
@@ -16,11 +16,11 @@ public class UserDTO {
     }
 
 
-    public Integer getGroupeid() {
+    public String getGroupeid() {
         return groupeid;
     }
 
-    public void setGroupeid(Integer groupeid) {
+    public void setGroupeid(String groupeid) {
         this.groupeid = groupeid;
     }
 

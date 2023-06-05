@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/login_almagestor"
-    tools:context=".MainActivity">
+    tools:context=".Login.NewUser">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,11 +21,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:padding="24dp">
+            android:padding="45dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Login"
+                android:text="@string/Welcome"
                 android:id="@+id/loginText"
                 android:textSize="36sp"
                 android:textAlignment="center"
@@ -34,11 +34,11 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/username"
+                android:id="@+id/codePDV"
                 android:background="@drawable/custom_edittext"
                 android:drawableStart="@drawable/baseline_person_24"
                 android:drawablePadding="8dp"
-                android:hint="@string/Username"
+                android:hint="@string/PDV"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
@@ -55,33 +55,33 @@
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="20dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/companyName"
+                android:background="@drawable/custom_edittext"
+                android:drawablePadding="8dp"
+                android:hint="@string/storeName"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:layout_marginTop="20dp"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:id="@+id/loginButton"
-                android:text="@string/Login"
+                android:id="@+id/registerButom"
+                android:text="@string/Register"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
                 android:backgroundTint="@color/purple"
                 app:cornerRadius = "20dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="@string/forgotPassword"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:textAlignment="gravity"
-                android:id="@+id/forgotPassword"
-                android:textColor="@color/purple"
-                android:layout_marginBottom="5dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="@string/UsuarioNuevo"
+        android:text="@string/Eslogan"
         android:textSize="14sp"
         android:textAlignment="center"
         android:id="@+id/signupText"

@@ -12,6 +12,12 @@
         android:theme="@style/Theme.AlmaGestor"
         tools:targetApi="31">
         <activity
+            android:name=".Login.ForgotPassword"
+            android:exported="false" />
+        <activity
+            android:name=".Login.NewUser"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
