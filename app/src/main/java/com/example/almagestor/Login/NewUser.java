@@ -23,8 +23,8 @@ public class NewUser extends AppCompatActivity {
     EditText shopName;
     Button register;
     TextView new_user;
-    ValidateClases validation;
-    Encryption encryption;
+    ValidateClases validation = new ValidateClases();
+    Encryption encryption = new Encryption();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +40,10 @@ public class NewUser extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserDTO user =new UserDTO("",codePDV.getText().toString(),password.getText().toString(),shopName.getText().toString());
+                SqliteModel obj=new SqliteModel();
+                UserDTO user =new UserDTO("",codePDV.getText().toString(),shopName.getText().toString(),password.getText().toString());
                 String validate= validation.validteUserDto(user);
-                if(validate!=null || !validate.equals("shopname")){
+                if(!validate.equals("correct")){
                     if(validate.equals("pdv")){
                         Toast.makeText(NewUser.this, "PDV MISSING", Toast.LENGTH_SHORT).show();
                     } else if (validate.equals("password")) {
@@ -56,10 +57,22 @@ public class NewUser extends AppCompatActivity {
                         throw new RuntimeException(e);
                     }
                     user.setPassword(password_Encrypted);
-                    //EscribirUserDTO BD generando un Groupeid nuevo segun BD general
+                    if(obj.insert_user(NewUser.this,user)){
+                        Intent intent = new Intent(NewUser.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });
 
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //Back Controller
+        Intent intent = new Intent(NewUser.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

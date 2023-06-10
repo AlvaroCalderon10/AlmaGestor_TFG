@@ -12,7 +12,7 @@ public class ValidateClases {
         } else if (isEmptyUser(user.getCompany_name())) {
             return "shopname";
         }
-        return null;
+        return "correct";
     }
 
     public boolean isEmptyUser(String data){

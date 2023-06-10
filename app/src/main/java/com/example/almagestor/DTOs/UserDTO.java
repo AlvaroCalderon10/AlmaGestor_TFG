@@ -5,10 +5,9 @@ public class UserDTO {
     private String groupeid;
     private String codePDV;
     private String Password;
-
     private String company_name;
 
-    public UserDTO(String groupeid, String codePDV, String password, String company_name) {
+    public UserDTO(String groupeid, String codePDV, String company_name,String password) {
         this.groupeid = groupeid;
         this.codePDV = codePDV;
         Password = password;

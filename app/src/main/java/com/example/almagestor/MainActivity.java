@@ -2,8 +2,11 @@ package com.example.almagestor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,8 +15,10 @@ import android.widget.Toast;
 
 import com.example.almagestor.DTOs.UserDTO;
 import com.example.almagestor.Login.ForgotPassword;
+import com.example.almagestor.Login.LogoHeader;
 import com.example.almagestor.Login.NewUser;
 import com.example.almagestor.Sqlite.SqliteModel;
+import com.example.almagestor.Validation.Encryption;
 
 public class MainActivity extends AppCompatActivity {
     EditText username;
@@ -32,20 +37,20 @@ public class MainActivity extends AppCompatActivity {
         new_user=findViewById(R.id.signupText);
         forgotPassword=findViewById(R.id.forgotPassword);
         UserDTO user_data= DB_local.getFromLocal(MainActivity.this);
-        if(user_data==null){
-            //Buscar en ExternalDB
-        }else{
-            //evaluo assert
-            assert user_data.getCodePDV()!=null;
-            username.setText(user_data.getCodePDV());
-        }
+        String password_encrypted="";
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (username.getText().toString().equals(user_data.getCodePDV()) && password.getText().toString().equals("1234")) {
-                    Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                Encryption encrypt=new Encryption();
+                try {
+                    if (username.getText().toString().equals(user_data.getCodePDV()) && user_data.getPassword().equals(encrypt.EncryptString(password.getText().toString(),user_data.getCodePDV()))) {
+                        Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                        //INTENT A menú principal
+                    } else {
+                        Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
@@ -53,16 +58,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(MainActivity.this, NewUser.class);
-                startActivity(intent);
-                finish();
+                Pair[] pairs=new Pair[1];
+                pairs[0]=new Pair<View, String>(new_user,"cardViewTrans");
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+                    ActivityOptions options=ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pairs);
+                    startActivity(intent,options.toBundle());
+                    finish();
+                }else{
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(MainActivity.this, ForgotPassword.class);
-                startActivity(intent);
-                finish();
+                Pair[] pairs=new Pair[1];
+                pairs[0]=new Pair<View, String>(forgotPassword,"cardViewTrans");
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+                    ActivityOptions options=ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pairs);
+                    startActivity(intent,options.toBundle());
+                    finish();
+                }else{
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
