@@ -17,4 +17,14 @@
     <string name="msgCorreo">Se enviará un correo electrónico con todos los pasos a seguir para recuperar la contraseña</string>
     <string name="forgotPassword">¿Ha olvidado la contraseña?</string>
     <string name="password2">Insertela de nuevo</string>
+    <string name="Venta">Venta</string>
+    <string name="Productos">Productos</string>
+    <string name="Entregas">Entregas</string>
+    <string name="Registrar">Registrar</string>
+    <string name="Facturas">Facturas</string>
+    <string name="Registrar_factura">Registrar Factura</string>
+    <string name="Tienda">Tienda</string>
+    <string name="OpenNavigation">OpenNav</string>
+    <string name="CloseNavigation">CloseNav</string>
+
 </resources>

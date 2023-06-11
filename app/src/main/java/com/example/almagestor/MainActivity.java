@@ -13,7 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.almagestor.DTOs.UserDTO;
+import com.example.almagestor.FO.SellFo;
 import com.example.almagestor.Login.ForgotPassword;
 import com.example.almagestor.Login.LogoHeader;
 import com.example.almagestor.Login.NewUser;
@@ -46,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
                     if (username.getText().toString().equals(user_data.getCodePDV()) && user_data.getPassword().equals(encrypt.EncryptString(password.getText().toString(),user_data.getCodePDV()))) {
                         Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
                         //INTENT A menú principal
+                        Intent intent =new Intent(MainActivity.this, SellFo.class);
+                        startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
                     }

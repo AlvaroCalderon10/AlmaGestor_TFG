@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_sell"
+            android:icon="@drawable/icon_home"
+            android:title="@string/Venta" />
+        <item
+            android:id="@+id/nav_producto"
+            android:icon="@drawable/icon_productos"
+            android:title="@string/Productos" />
+
+    </group>
+        <item android:title="@string/Entregas">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_entrega"
+                        android:icon="@drawable/icon_entrega"
+                        android:title="@string/Entregas" />
+                    <item
+                        android:id="@+id/nav_entrega_registrar"
+                        android:icon="@drawable/icon_insert"
+                        android:title="@string/Registrar" />
+                </group>
+            </menu>
+        </item>
+
+        <item android:title="@string/Facturas">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_facturas"
+                        android:icon="@drawable/icon_invoice"
+                        android:title="@string/Facturas" />
+                    <item
+                        android:id="@+id/nav_facturas_registrar"
+                        android:icon="@drawable/icon_insert"
+                        android:title="@string/Registrar_factura" />
+                </group>
+            </menu>
+        </item>
+
+    <item android:title="@string/Tienda">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_tienda"
+                    android:icon="@drawable/icon_shop"
+                    android:title="@string/Tienda" />
+            </group>
+        </menu>
+    </item>
+
+</menu>
