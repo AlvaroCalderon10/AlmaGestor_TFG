@@ -4,10 +4,12 @@
         <item
             android:id="@+id/nav_sell"
             android:icon="@drawable/icon_home"
+            android:iconTint="@color/purple"
             android:title="@string/Venta" />
         <item
             android:id="@+id/nav_producto"
             android:icon="@drawable/icon_productos"
+            android:iconTint="@color/purple"
             android:title="@string/Productos" />
 
     </group>
@@ -17,6 +19,7 @@
                     <item
                         android:id="@+id/nav_entrega"
                         android:icon="@drawable/icon_entrega"
+                        android:iconTint="@color/purple"
                         android:title="@string/Entregas" />
                     <item
                         android:id="@+id/nav_entrega_registrar"
@@ -32,10 +35,12 @@
                     <item
                         android:id="@+id/nav_facturas"
                         android:icon="@drawable/icon_invoice"
+                        android:iconTint="@color/purple"
                         android:title="@string/Facturas" />
                     <item
                         android:id="@+id/nav_facturas_registrar"
                         android:icon="@drawable/icon_insert"
+                        android:iconTint="@color/purple"
                         android:title="@string/Registrar_factura" />
                 </group>
             </menu>
@@ -47,6 +52,7 @@
                 <item
                     android:id="@+id/nav_tienda"
                     android:icon="@drawable/icon_shop"
+                    android:iconTint="@color/purple"
                     android:title="@string/Tienda" />
             </group>
         </menu>

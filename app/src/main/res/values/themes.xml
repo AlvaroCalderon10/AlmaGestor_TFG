@@ -15,4 +15,30 @@
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
+
+
+
+    <style name="digibuttom" parent="commonbuttom">
+
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="commonbuttom" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+
+            <item name="android:layout_width">82dp</item>
+            <item name="android:layout_height">82dp</item>
+            <item name="cornerRadius">36dp</item>
+            <item name="android:textSize">28dp</item>
+            <item name="android:layout_margin">5dp</item>
+    </style>
+    <style name="auxbotom" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="android:layout_width">92dp</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="cornerRadius">20dp</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:gravity">center</item>
+</style>
 </resources>
