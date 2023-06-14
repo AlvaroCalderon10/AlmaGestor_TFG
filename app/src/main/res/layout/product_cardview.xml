@@ -43,6 +43,7 @@
                 android:layout_marginLeft="4dp"
                 android:layout_toRightOf="@id/IconImageView">
                 <TextView
+                    android:id="@+id/product_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="7dp"
@@ -51,6 +52,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"/>
                 <TextView
+                    android:id="@+id/product_ean"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
@@ -107,6 +109,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_toEndOf="@+id/btn_plus_stock"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/baseline_delete_24"
                     app:fabCustomSize="20dp"

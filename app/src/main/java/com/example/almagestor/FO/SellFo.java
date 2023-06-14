@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +16,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.almagestor.ListAdapters.ListAdapter;
 import com.example.almagestor.Login.ForgotPassword;
 import com.example.almagestor.MainActivity;
 import com.example.almagestor.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SellFo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
@@ -29,6 +35,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     MaterialButton btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9;
     MaterialButton btn_ok,btn_finish,btn_scan;
     MaterialButton btn_info,btn_reset,btn_delete;
+    List<ListProductShopElement> elements=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +71,6 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         assignId(btn_delete,R.id.btn_delete);
 
 
-
     }
     void assignId(MaterialButton btn, int id){
         btn=findViewById(id);
@@ -93,8 +99,25 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 screen.setText(textOnscreen.trim());
                 screen.setVisibility(View.GONE);
                 return;
+            } else if (button.getTag().toString().equals("1")) {
+                init(screen.getText().toString());
+                screen.setVisibility(View.GONE);
+                textOnscreen="";
+                screen.setText(textOnscreen.trim());
+                return;
             }
+
         }
+    }
+
+    public void init(String value){
+        elements.add(new ListProductShopElement("img","Producto Prueba",value,"1"));
+        ListAdapter listAdapter=new ListAdapter(elements,this,1);
+        RecyclerView recyclerView=findViewById(R.id.listRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(listAdapter);
+
     }
 
     @Override
