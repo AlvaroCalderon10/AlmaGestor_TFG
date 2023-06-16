@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/user_name_shop"
                     android:layout_marginTop="15dp"
                     android:text="Nombre Tienda"
                     android:textSize="25sp"
@@ -33,17 +34,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/user_pdv_shop"
                     android:layout_marginTop="2dp"
                     android:text="PDV : 28999999"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:textColor="#5C5A5A"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-
-
 
             </LinearLayout>
 

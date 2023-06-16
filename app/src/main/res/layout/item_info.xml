@@ -37,6 +37,7 @@
 
         </LinearLayout>
         <TextView
+            android:id="@+id/user_phone"
             android:text="+91 690554489"
             android:textStyle="bold"
             android:textColor="@color/black"

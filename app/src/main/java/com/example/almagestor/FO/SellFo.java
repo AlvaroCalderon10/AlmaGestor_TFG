@@ -54,6 +54,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_sell);
 
         //buttons
         assignId(btn_1,R.id.btn_1);
@@ -144,6 +145,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             case R.id.nav_tienda:
                 Intent intent = new Intent(SellFo.this, Shop.class);
                 startActivity(intent);
+                overridePendingTransition(0,0);
                 break;
             case R.id.nav_facturas:
                 Toast.makeText(this,"Facturas", Toast.LENGTH_SHORT).show();
