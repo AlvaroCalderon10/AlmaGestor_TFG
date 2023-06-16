@@ -32,5 +32,11 @@
     <string name="Direccion">Dirección</string>
     <string name="AñadirInfo">Añade Información</string>
     <string name="Telefono">Teléfono</string>
+    <string name="InformacionTienda">Información dirección de tienda </string>
+    <string name="Street">Dirección : </string>
+    <string name="Town">Municipio: </string>
+    <string name="CodePostal">Código Postal: </string>
+    <string name="Save">Guardar</string>
+    <string name="Cancel">Cancelar</string>
 
 </resources>
