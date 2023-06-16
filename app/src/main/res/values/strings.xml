@@ -26,5 +26,11 @@
     <string name="Tienda">Tienda</string>
     <string name="OpenNavigation">OpenNav</string>
     <string name="CloseNavigation">CloseNav</string>
+    <string name="Mi">Mi</string>
+    <string name="Perfil">Perfil</string>
+    <string name="Email">Email</string>
+    <string name="Direccion">Dirección</string>
+    <string name="AñadirInfo">Añade Información</string>
+    <string name="Telefono">Teléfono</string>
 
 </resources>

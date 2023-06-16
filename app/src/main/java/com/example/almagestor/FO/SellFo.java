@@ -15,11 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.almagestor.ListAdapters.ListAdapter;
 import com.example.almagestor.Login.ForgotPassword;
 import com.example.almagestor.MainActivity;
 import com.example.almagestor.R;
+import com.example.almagestor.shopActivity.Shop;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -135,6 +137,18 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.nav_sell:
+                break;
+            case R.id.nav_tienda:
+                Intent intent = new Intent(SellFo.this, Shop.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_facturas:
+                Toast.makeText(this,"Facturas", Toast.LENGTH_SHORT).show();
+        }
+
         return true;
     }
 }
