@@ -1,5 +1,6 @@
 package com.example.almagestor.FO;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,21 +10,23 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.almagestor.ListAdapters.ListAdapter;
-import com.example.almagestor.Login.ForgotPassword;
 import com.example.almagestor.MainActivity;
 import com.example.almagestor.R;
 import com.example.almagestor.shopActivity.Shop;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,9 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     MaterialButton btn_ok,btn_finish,btn_scan;
     MaterialButton btn_info,btn_reset,btn_delete;
     List<ListProductShopElement> elements=new ArrayList<>();
+
+    String barCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,14 +96,16 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             screen.setText(textOnscreen.trim());
             return;
         }else{
-            if(button.getTag().toString().equals("6")){
-                textOnscreen=textOnscreen.substring(0,textOnscreen.length()-1);
-                if(textOnscreen.isEmpty()){
-                    screen.setVisibility(View.GONE);
+            if(button.getTag().toString().equals("6")){ //Delete one
+                if(!textOnscreen.isEmpty()){
+                    textOnscreen=textOnscreen.substring(0,textOnscreen.length()-1);
+                    if(textOnscreen.isEmpty()){
+                        screen.setVisibility(View.GONE);
+                    }
+                    screen.setText(textOnscreen.trim());
                 }
-                screen.setText(textOnscreen.trim());
                 return;
-            } else if (button.getTag().toString().equals("5")) {
+            } else if (button.getTag().toString().equals("5")) { // Reset
                 textOnscreen="";
                 screen.setText(textOnscreen.trim());
                 screen.setVisibility(View.GONE);
@@ -107,6 +115,9 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 screen.setVisibility(View.GONE);
                 textOnscreen="";
                 screen.setText(textOnscreen.trim());
+                return;
+            } else if(button.getTag().toString().equals("3")){ //SCAN
+                scanCode(); //Scan Scan
                 return;
             }
 
@@ -122,6 +133,27 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         recyclerView.setAdapter(listAdapter);
 
     }
+    private void scanCode() {
+        ScanOptions options = new ScanOptions();
+        options.setPrompt("Volume up to flash on");
+        options.setBeepEnabled(true);
+        options.setOrientationLocked(true);
+        options.setCaptureActivity(CaptureActivity.class);
+        barLaucher.launch(options);
+    }
+    ActivityResultLauncher<ScanOptions> barLaucher = registerForActivityResult(new ScanContract(), result->
+    {
+        if(result.getContents() !=null)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SellFo.this);
+            builder.setTitle("Result");
+            builder.setMessage(result.getContents());
+            if(!result.getContents().isEmpty()){
+                barCode =result.getContents().toString().trim();
+                init(barCode);
+            }
+        }
+    });
 
     @Override
     public void onBackPressed() {

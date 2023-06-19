@@ -12,10 +12,17 @@
         android:theme="@style/Theme.AlmaGestor"
         tools:targetApi="31">
         <activity
+            android:name=".FO.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:exported="false" />
+        <activity
             android:name=".shopActivity.Shop"
             android:exported="false" />
         <activity
             android:name=".FO.SellFo"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:exported="false" />
         <activity
             android:name=".Login.LogoHeader"

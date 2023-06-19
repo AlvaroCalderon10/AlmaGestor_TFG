@@ -123,7 +123,10 @@
                         app:cornerRadius="26dp"
                         android:backgroundTint="@color/purple_200"
                         android:onClick="onDigitCLick"
-                        android:textSize="18dp"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeStepGranularity="2sp"
                         android:tag="3"
                         android:text="SCAN"/>
                 </LinearLayout>
@@ -154,7 +157,10 @@
                         app:cornerRadius="26dp"
                         android:backgroundTint="@color/red"
                         android:onClick="onDigitCLick"
-                        android:textSize="18dp"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeStepGranularity="2sp"
                         android:tag="2"
                         android:text="Finish"/>
                 </LinearLayout>
@@ -186,7 +192,10 @@
                         android:backgroundTint="@color/android"
                         android:tag="1"
                         android:onClick="onDigitCLick"
-                        android:textSize="32dp"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeStepGranularity="2sp"
                         android:text="OK"/>
                 </LinearLayout>
 
