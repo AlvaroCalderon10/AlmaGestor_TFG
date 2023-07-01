@@ -1,13 +1,11 @@
 package com.example.almagestor.FO;
 
-import android.widget.ImageView;
-
-public class ListProductShopElement {
+public class ProductDataList {
     String img;
     String nameProduct;
     String ean;
     String units;
-    public ListProductShopElement(String img, String nameProduct, String ean, String units) {
+    public ProductDataList(String img, String nameProduct, String ean, String units) {
         this.img = img;
         this.nameProduct = nameProduct;
         this.ean = ean;

@@ -1,7 +1,6 @@
 package com.example.almagestor.ListAdapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +9,18 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.almagestor.FO.ListProductShopElement;
+import com.example.almagestor.FO.ProductDataList;
 import com.example.almagestor.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
-    private List<ListProductShopElement> mData;
+    private List<ProductDataList> mData;
     final LayoutInflater mInflater;
     final Context context;
     int line;
-    public ListAdapter(List<ListProductShopElement> itemList, Context context, int line){
+    public ListAdapter(List<ProductDataList> itemList, Context context, int line){
         this.mInflater=LayoutInflater.from(context);
         this.context=context;
         this.mData=itemList;
@@ -42,7 +41,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         holder.bindData(mData.get(position));
     }
 
-    public void setItems(List<ListProductShopElement> items){mData=items;}
+    public void setItems(List<ProductDataList> items){mData=items;}
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView iconImage;
@@ -81,7 +80,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                 }
             });
             }
-        void bindData(final ListProductShopElement item){
+        void bindData(final ProductDataList item){
             //iconImage.setImageIcon();
             textProduct.setText(item.getNameProduct());
             textEan.setText(item.getEan());

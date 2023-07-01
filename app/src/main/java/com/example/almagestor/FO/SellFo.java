@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.almagestor.ListAdapters.ListAdapter;
 import com.example.almagestor.MainActivity;
+import com.example.almagestor.Products.ProductsBean;
 import com.example.almagestor.R;
 import com.example.almagestor.shopActivity.Shop;
 import com.google.android.material.button.MaterialButton;
@@ -40,7 +41,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     MaterialButton btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9;
     MaterialButton btn_ok,btn_finish,btn_scan;
     MaterialButton btn_info,btn_reset,btn_delete;
-    List<ListProductShopElement> elements=new ArrayList<>();
+    List<ProductDataList> elements=new ArrayList<>();
 
     String barCode;
 
@@ -125,7 +126,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     }
 
     public void init(String value){
-        elements.add(new ListProductShopElement("img","Producto Prueba",value,"1"));
+        elements.add(new ProductDataList("img","Producto Prueba",value,"1"));
         ListAdapter listAdapter=new ListAdapter(elements,this,1);
         RecyclerView recyclerView=findViewById(R.id.listRecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -181,6 +182,11 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 break;
             case R.id.nav_facturas:
                 Toast.makeText(this,"Facturas", Toast.LENGTH_SHORT).show();
+            case R.id.nav_producto:
+                Intent intent2 = new Intent(SellFo.this, ProductsBean.class);
+                startActivity(intent2);
+                overridePendingTransition(0,0);
+                break;
         }
 
         return true;
