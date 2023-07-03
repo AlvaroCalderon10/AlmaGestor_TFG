@@ -112,7 +112,7 @@ public class SqliteModel {
     public boolean insert_Product(Context context, ProductDataDTO dto){
         String pdv="28999999";//coger DB
         String groupeid="10014"; //Coger DB
-        String sql="INSERT INTO product (groupeid, name, ean, stock, price) VALUES ('"+groupeid+"','"+dto.getNameProduct()+"','"+dto.getEan()+"','"+dto.getUnits()+"','"+dto.getPrice()+"')";
+        String sql="INSERT INTO product (groupeid, img, name, ean, stock, price) VALUES ('"+groupeid+"','"+dto.getImg()+"','"+dto.getNameProduct()+"','"+dto.getEan()+"','"+dto.getUnits()+"','"+dto.getPrice()+"')";
         try {
             SQLiteDatabase db =this.getConn(context);
             db.execSQL(sql);
@@ -128,14 +128,15 @@ public class SqliteModel {
         ArrayList<ProductDataDTO> product_list = new ArrayList<>();
         ProductDataDTO product = null;
         String groupeid="10014";
-        Cursor c = db.rawQuery("SELECT groupeid, name, ean, stock, price FROM product WHERE groupeid = ?", new String[]{groupeid});
+        Cursor c = db.rawQuery("SELECT groupeid, img,name, ean, stock, price FROM product WHERE groupeid = ?", new String[]{groupeid});
         if (c.moveToFirst()) {
             do {
-                String name =c.getString(1);
-                String ean= c.getString(2);
-                Integer stock=c.getInt(3);
-                Integer price=c.getInt(4);
-                product = new ProductDataDTO("img",name,ean,stock,price);
+                String img=c.getString(1);
+                String name =c.getString(2);
+                String ean= c.getString(3);
+                Integer stock=c.getInt(4);
+                Integer price=c.getInt(5);
+                product = new ProductDataDTO(img,name,ean,stock,price);
                 product_list.add(product);
             } while (c.moveToNext());
         }

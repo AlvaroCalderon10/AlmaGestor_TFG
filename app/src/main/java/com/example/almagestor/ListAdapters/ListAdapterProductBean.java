@@ -1,6 +1,8 @@
 package com.example.almagestor.ListAdapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.almagestor.Products.ProductDataDTO;
 import com.example.almagestor.R;
 
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 import java.util.List;
 
 public class ListAdapterProductBean extends RecyclerView.Adapter<ListAdapterProductBean.ViewHolder>{
@@ -54,7 +58,9 @@ public class ListAdapterProductBean extends RecyclerView.Adapter<ListAdapterProd
             textPrice=itemView.findViewById(R.id.product_price_productbean);
         }
         void bindData(final ProductDataDTO item){
-            //iconImage.setImageIcon();
+            if(!item.getImg().equals("1")){
+                iconImage.setImageBitmap(BitmapFactory.decodeByteArray((Base64.getDecoder().decode(item.getImg())),0,(Base64.getDecoder().decode(item.getImg()).length)));
+            }
             textProduct.setText(item.getNameProduct());
             textEan.setText(item.getEan());
             textQuantite.setText("1");

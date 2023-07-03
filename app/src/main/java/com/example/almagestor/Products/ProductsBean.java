@@ -1,14 +1,22 @@
 package com.example.almagestor.Products;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,18 +33,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class ProductsBean extends AppCompatActivity {
-
+    private static final int IMAGE_PERMISSION_REQUEST_CODE=10;
     List<ProductDataDTO> elements=new ArrayList<>();
     String barCode;
     FloatingActionButton add_product;
     RecyclerView recyclerView;
-    Button Save,Cancel,Scan;
+    Button Save,Cancel,Scan,Photo;
     ImageView Close;
     EditText nameProduct,stockProduct, precioProduct, barcodeProduct;
+    String base64IMG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +59,12 @@ public class ProductsBean extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Dialog dialog = new Dialog(ProductsBean.this);
+                base64IMG="";
                 dialog.setContentView(R.layout.add_product_lay);
                 Save = dialog.findViewById(R.id.btn_yes_lay);
                 Cancel = dialog.findViewById(R.id.btn_no_lay);
                 Scan = dialog.findViewById(R.id.btn_scan_product);
+                Photo=dialog.findViewById(R.id.btn_photo_product);
                 Close = dialog.findViewById(R.id.btn_close_product_add);
                 nameProduct = dialog.findViewById(R.id.editext_name_product);
                 stockProduct = dialog.findViewById(R.id.editext_stock_product);
@@ -81,9 +94,9 @@ public class ProductsBean extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         ProductDataDTO dto=new ProductDataDTO();
-                        dto=dto.create_validate_product(nameProduct.getText().toString(),barcodeProduct.getText().toString(),Integer.valueOf(stockProduct.getText().toString()),Integer.valueOf(precioProduct.getText().toString()));
+                        dto=dto.create_validate_product(base64IMG,nameProduct.getText().toString(),barcodeProduct.getText().toString(),Integer.valueOf(stockProduct.getText().toString()),Integer.valueOf(precioProduct.getText().toString()));
                         if(dto!=null){
-                            init(nameProduct.getText().toString());
+                            init_img(nameProduct.getText().toString(),base64IMG);
                             //guardar en DB
                             SqliteModel obj=new SqliteModel();
                             if(obj.insert_Product(ProductsBean.this,dto)==true){
@@ -95,12 +108,34 @@ public class ProductsBean extends AppCompatActivity {
                         }
                     }
                 });
+                Photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(checkSelfPermission(Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED){
+                            openCamara();
+                        }else{
+                            String value=Manifest.permission.CAMERA;
+                            String[] permissionRequested=new String[]{value};
+                            requestPermissions(permissionRequested,IMAGE_PERMISSION_REQUEST_CODE);
+                        }
+                    }
+                });
                 dialog.show();
             }
         }));
-
-
     }
+    @Override
+    public void onRequestPermissionsResult(int requestcode, String[] permissions, int[] grantResults){
+        super.onRequestPermissionsResult(requestcode,permissions,grantResults);
+        if (requestcode==IMAGE_PERMISSION_REQUEST_CODE){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                openCamara();
+            } else{
+                Toast.makeText(this, "Unable to invoke camara without permision", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private void scanCode() {
         ScanOptions options = new ScanOptions();
         options.setPrompt("Volume up to flash on");
@@ -122,10 +157,48 @@ public class ProductsBean extends AppCompatActivity {
             }
         }
     });
+    private void openCamara(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //startActivityForResult(intent,1);
+        activityResultLauncher.launch(intent);
+    }
+    ActivityResultLauncher<Intent> activityResultLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            int resul=result.getResultCode();
+                            Intent data= result.getData();
+                            if (resul == -1 && resul == RESULT_OK) {
+                                Bundle extras = data.getExtras();
+                                Bitmap imgBitmap = (Bitmap) extras.get("data");
+                                base64IMG = bitmapToBase64(imgBitmap);
+                            }
+                        }
+                    }
+            );
 
-
+    private String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.getEncoder().encodeToString(byteArray);
+    }
+    private Bitmap base64ToBitmap(String b64) {
+        byte[] imageAsBytes = Base64.getDecoder().decode(b64);
+        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+    }
     public void init(String value){
         elements.add(new ProductDataDTO("img",value,"10",1,2));
+        ListAdapterProductBean listAdapterProductBean=new ListAdapterProductBean(elements, this,1);
+        RecyclerView recyclerView=findViewById(R.id.listRecyclerView_products);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ProductsBean.this));
+        recyclerView.setAdapter(listAdapterProductBean);
+    }
+    public void init_img(String value, String img){
+        elements.add(new ProductDataDTO(img,value,"10",1,2));
         ListAdapterProductBean listAdapterProductBean=new ListAdapterProductBean(elements, this,1);
         RecyclerView recyclerView=findViewById(R.id.listRecyclerView_products);
         recyclerView.setHasFixedSize(true);

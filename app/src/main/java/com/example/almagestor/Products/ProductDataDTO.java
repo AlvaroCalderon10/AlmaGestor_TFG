@@ -59,11 +59,16 @@ public class ProductDataDTO {
     public void setPrice(int price) {
         this.price = price;
     }
-    public ProductDataDTO create_validate_product(String name, String ean,int stock,int price){
+    public ProductDataDTO create_validate_product(String img,String name, String ean,int stock,int price){
         ProductDataDTO dto=new ProductDataDTO();
         if(name.isEmpty()||ean.isEmpty()){
             return null;
         }else{
+            if(img.isEmpty()){
+                dto.img="1";
+            }else{
+                dto.img=img;
+            }
             dto.setNameProduct(name);
             dto.setEan(ean);
             dto.setUnits(stock);
