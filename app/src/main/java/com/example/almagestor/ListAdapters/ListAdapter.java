@@ -37,8 +37,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position){
-        holder.bindData(mData.get(position));
+    public void onBindViewHolder(final ViewHolder holder, int position){
+        holder.bindData(mData.get(holder.getAdapterPosition()));
         holder.btn_plus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -46,10 +46,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     quantite++;
                     if (quantite<0){
                         holder.textQuantite.setText("0");
-                        mData.get(position).setUnits("0");
+                        mData.get(holder.getAdapterPosition()).setUnits("0");
                     }else{
                         holder.textQuantite.setText(quantite.toString());
-                        mData.get(position).setUnits(quantite.toString());
+                        mData.get(holder.getAdapterPosition()).setUnits(quantite.toString());
                     }
                 }
             });
@@ -60,10 +60,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     quantite--;
                     if (quantite<0){
                         holder.textQuantite.setText("0");
-                        mData.get(position).setUnits("0");
+                        mData.get(holder.getAdapterPosition()).setUnits("0");
                     }else{
                         holder.textQuantite.setText(quantite.toString());
-                        mData.get(position).setUnits(quantite.toString());
+                        mData.get(holder.getAdapterPosition()).setUnits(quantite.toString());
                     }
                 }
             });
