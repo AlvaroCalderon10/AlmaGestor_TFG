@@ -44,6 +44,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     List<ProductDataList> elements=new ArrayList<>();
 
     String barCode;
+    Integer money_shop=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

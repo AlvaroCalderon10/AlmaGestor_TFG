@@ -37,9 +37,37 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ListAdapter.ViewHolder holder, final int position){
+    public void onBindViewHolder(final ViewHolder holder, final int position){
         holder.bindData(mData.get(position));
-    }
+        holder.btn_plus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Integer quantite=Integer.valueOf(holder.textQuantite.getText().toString());
+                    quantite++;
+                    if (quantite<0){
+                        holder.textQuantite.setText("0");
+                        mData.get(position).setUnits("0");
+                    }else{
+                        holder.textQuantite.setText(quantite.toString());
+                        mData.get(position).setUnits(quantite.toString());
+                    }
+                }
+            });
+        holder.btn_less.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Integer quantite=Integer.valueOf(holder.textQuantite.getText().toString());
+                    quantite--;
+                    if (quantite<0){
+                        holder.textQuantite.setText("0");
+                        mData.get(position).setUnits("0");
+                    }else{
+                        holder.textQuantite.setText(quantite.toString());
+                        mData.get(position).setUnits(quantite.toString());
+                    }
+                }
+            });
+        }
 
     public void setItems(List<ProductDataList> items){mData=items;}
 
@@ -55,30 +83,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             textQuantite=itemView.findViewById(R.id.quantite);
             btn_less=itemView.findViewById(R.id.btn_minus_stock);
             btn_plus=itemView.findViewById(R.id.btn_plus_stock);
-            btn_plus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Integer quantite=Integer.valueOf(textQuantite.getText().toString());
-                    quantite++;
-                    if (quantite<0){
-                        textQuantite.setText("0");
-                    }else{
-                        textQuantite.setText(quantite.toString());
-                    }
-                }
-            });
-            btn_less.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Integer quantite=Integer.valueOf(textQuantite.getText().toString());
-                    quantite--;
-                    if (quantite<0){
-                        textQuantite.setText("0");
-                    }else{
-                        textQuantite.setText(quantite.toString());
-                    }
-                }
-            });
             }
         void bindData(final ProductDataList item){
             //iconImage.setImageIcon();
