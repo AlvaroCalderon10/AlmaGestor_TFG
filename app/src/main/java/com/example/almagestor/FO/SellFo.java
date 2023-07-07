@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.almagestor.Facture.FacturePDF;
 import com.example.almagestor.ListAdapters.ListAdapter;
 import com.example.almagestor.MainActivity;
 import com.example.almagestor.Products.ProductDataDTO;
@@ -31,6 +32,7 @@ import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SellFo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -123,6 +125,15 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             } else if(button.getTag().toString().equals("3")){ //SCAN
                 scanCode(); //Scan Scan
                 return;
+            }else if(button.getTag().toString().equals("2")) {//Finish
+                //Generar factura simple compra
+                FacturePDF objFacture= new FacturePDF();
+                try{
+                    objFacture.createPdf(new Date());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
 
         }
