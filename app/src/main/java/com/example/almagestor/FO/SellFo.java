@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.almagestor.ListAdapters.ListAdapter;
 import com.example.almagestor.MainActivity;
+import com.example.almagestor.Products.ProductDataDTO;
 import com.example.almagestor.Products.ProductsBean;
 import com.example.almagestor.R;
 import com.example.almagestor.shopActivity.Shop;
@@ -36,15 +37,15 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    TextView screen;
+    TextView screen,money;
     String textOnscreen="";
     MaterialButton btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9;
     MaterialButton btn_ok,btn_finish,btn_scan;
     MaterialButton btn_info,btn_reset,btn_delete;
-    List<ProductDataList> elements=new ArrayList<>();
+    List<ProductDataDTO> elements=new ArrayList<>();
 
     String barCode;
-    Integer money_shop=0;
+    Double money_shop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         toolbar=findViewById(R.id.toolbar);
         screen=findViewById(R.id.textView);
         toolbar.setVisibility(View.GONE);
+        money=findViewById(R.id.cash_money);
 
         setSupportActionBar(toolbar);
         navigationView.bringToFront();
@@ -80,7 +82,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         assignId(btn_info,R.id.btn_info);
         assignId(btn_reset,R.id.btn_reset);
         assignId(btn_delete,R.id.btn_delete);
-
+        money_shop=Double.valueOf(0);
 
     }
     void assignId(MaterialButton btn, int id){
@@ -113,7 +115,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 screen.setVisibility(View.GONE);
                 return;
             } else if (button.getTag().toString().equals("1")) {
-                init(screen.getText().toString());
+                init(screen.getText().toString(),10.00);
                 screen.setVisibility(View.GONE);
                 textOnscreen="";
                 screen.setText(textOnscreen.trim());
@@ -126,14 +128,19 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         }
     }
 
-    public void init(String value){
-        elements.add(new ProductDataList("img","Producto Prueba",value,"1"));
+    public void init(String value,double price){
+        elements.add(new ProductDataDTO("img","Producto Prueba",value,1,price));
+        update_cashMoney(price);
+        money_shop=money_shop+price;
         ListAdapter listAdapter=new ListAdapter(elements,this,1);
         RecyclerView recyclerView=findViewById(R.id.listRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listAdapter);
 
+    }
+    public void update_cashMoney(Double value){
+        money.setText(String.valueOf(money_shop+value)+"€");
     }
     private void scanCode() {
         ScanOptions options = new ScanOptions();
@@ -152,7 +159,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             builder.setMessage(result.getContents());
             if(!result.getContents().isEmpty()){
                 barCode =result.getContents().toString().trim();
-                init(barCode);
+                init(barCode,10.00);
             }
         }
     });
@@ -191,5 +198,11 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         }
 
         return true;
+    }
+    public Double getMoney_shop() {
+        return money_shop;
+    }
+    public void setMoney_shop(Double money_shop) {
+        this.money_shop = money_shop;
     }
 }

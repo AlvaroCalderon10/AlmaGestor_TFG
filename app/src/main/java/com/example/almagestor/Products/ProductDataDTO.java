@@ -7,8 +7,8 @@ public class ProductDataDTO {
     String nameProduct;
     String ean;
     int units;
-    int price;
-    public ProductDataDTO(String img, String nameProduct, String ean, int units, int price) {
+    double price;
+    public ProductDataDTO(String img, String nameProduct, String ean, int units, double price) {
         this.img = img;
         this.nameProduct = nameProduct;
         this.ean = ean;
@@ -52,11 +52,11 @@ public class ProductDataDTO {
         this.units = units;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
     public ProductDataDTO create_validate_product(String img,String name, String ean,int stock,int price){

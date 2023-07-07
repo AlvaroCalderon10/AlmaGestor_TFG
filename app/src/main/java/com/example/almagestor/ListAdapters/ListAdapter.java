@@ -1,5 +1,6 @@
 package com.example.almagestor.ListAdapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +10,19 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.almagestor.FO.ProductDataList;
+import com.example.almagestor.FO.SellFo;
+import com.example.almagestor.Products.ProductDataDTO;
 import com.example.almagestor.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
-    private List<ProductDataList> mData;
+    private List<ProductDataDTO> mData;
     final LayoutInflater mInflater;
     final Context context;
     int line;
-    public ListAdapter(List<ProductDataList> itemList, Context context, int line){
+    public ListAdapter(List<ProductDataDTO> itemList, Context context, int line){
         this.mInflater=LayoutInflater.from(context);
         this.context=context;
         this.mData=itemList;
@@ -46,10 +48,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     quantite++;
                     if (quantite<0){
                         holder.textQuantite.setText("0");
-                        mData.get(holder.getAdapterPosition()).setUnits("0");
+                        mData.get(holder.getAdapterPosition()).setUnits(0);
                     }else{
                         holder.textQuantite.setText(quantite.toString());
-                        mData.get(holder.getAdapterPosition()).setUnits(quantite.toString());
+                        mData.get(holder.getAdapterPosition()).setUnits(quantite);
+                        TextView txtView =((Activity)context).findViewById(R.id.cash_money);
+                        Double money=((SellFo) context).getMoney_shop();
+                        txtView.setText(String.valueOf(money+mData.get(holder.getAdapterPosition()).getPrice())+"€");
+                        ((SellFo) context).setMoney_shop(money+mData.get(holder.getAdapterPosition()).getPrice());
                     }
                 }
             });
@@ -60,16 +66,20 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     quantite--;
                     if (quantite<0){
                         holder.textQuantite.setText("0");
-                        mData.get(holder.getAdapterPosition()).setUnits("0");
+                        mData.get(holder.getAdapterPosition()).setUnits(0);
                     }else{
                         holder.textQuantite.setText(quantite.toString());
-                        mData.get(holder.getAdapterPosition()).setUnits(quantite.toString());
+                        mData.get(holder.getAdapterPosition()).setUnits(quantite);
+                        TextView txtView =((Activity)context).findViewById(R.id.cash_money);
+                        Double money=((SellFo) context).getMoney_shop();
+                        txtView.setText(String.valueOf(money-mData.get(holder.getAdapterPosition()).getPrice())+"€");
+                        ((SellFo) context).setMoney_shop(money-mData.get(holder.getAdapterPosition()).getPrice());
                     }
                 }
             });
         }
 
-    public void setItems(List<ProductDataList> items){mData=items;}
+    public void setItems(List<ProductDataDTO> items){mData=items;}
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView iconImage;
@@ -84,7 +94,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             btn_less=itemView.findViewById(R.id.btn_minus_stock);
             btn_plus=itemView.findViewById(R.id.btn_plus_stock);
             }
-        void bindData(final ProductDataList item){
+        void bindData(final ProductDataDTO item){
             //iconImage.setImageIcon();
             textProduct.setText(item.getNameProduct());
             textEan.setText(item.getEan());
