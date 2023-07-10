@@ -11,26 +11,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.almagestor.DTOs.AdressDTO;
 import com.example.almagestor.Facture.FacturePDF;
 import com.example.almagestor.ListAdapters.ListAdapter;
 import com.example.almagestor.MainActivity;
 import com.example.almagestor.Products.ProductDataDTO;
 import com.example.almagestor.Products.ProductsBean;
 import com.example.almagestor.R;
+import com.example.almagestor.Sqlite.SqliteModel;
 import com.example.almagestor.shopActivity.Shop;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+import com.pdfview.PDFView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +56,9 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
 
     String barCode;
     Double money_shop;
+    PDFView viewPDF;
+    Button OK,Cancel;
+    ImageView Close;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +140,18 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 //Generar factura simple compra
                 FacturePDF objFacture= new FacturePDF();
                 try{
-                    objFacture.createPdf(new Date());
+                    Calendar calendar= Calendar.getInstance();
+                    File file_pdf=objFacture.createPdf(elements,calendar);
+                    if(file_pdf!=null){
+                        showPDF(file_pdf);
+                    }
+                    //Insertar log en BD.
+                    SqliteModel obj=new SqliteModel();
+                    long id= obj.insert_logVente(this,money_shop.toString(),calendar,"file");
+                    if(id!=-1){
+                        //inserta productos.
+                    }
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -137,6 +159,41 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             }
 
         }
+    }
+
+    private void showPDF(File file_pdf) {
+            Dialog dialog= new Dialog(SellFo.this);
+            dialog.setContentView(R.layout.custom_show_pdfs);
+            OK=dialog.findViewById(R.id.btn_yes_pdf);
+            Cancel=dialog.findViewById(R.id.btn_no_pdf);
+            Close=dialog.findViewById(R.id.btn_close_pdf);
+            viewPDF=dialog.findViewById(R.id.show_pdf);
+            viewPDF.fromFile(file_pdf);
+            viewPDF.isZoomEnabled();
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_window_pdf);
+            Close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    return;
+                }
+            });
+            Cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    return;
+                }
+            });
+            OK.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    return;
+                }
+            });
+            viewPDF.show();
+            dialog.show();
     }
 
     public void init(String value,double price){

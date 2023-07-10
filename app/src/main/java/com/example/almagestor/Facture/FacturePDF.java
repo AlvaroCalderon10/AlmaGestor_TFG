@@ -2,8 +2,10 @@ package com.example.almagestor.Facture;
 
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.icu.util.Calendar;
 import android.os.Environment;
 
+import com.example.almagestor.Products.ProductDataDTO;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.Code128Writer;
@@ -26,6 +28,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.pdfview.PDFView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,12 +36,12 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class FacturePDF {
     private static int grade=00000;
-    public void createPdf(Date date) throws FileNotFoundException {
+    public File createPdf(List<ProductDataDTO> elements, Calendar date) throws FileNotFoundException {
         String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
         String namePDF="Factura_Nº:"+grade+".pdf";
         File myFile= new File(pdfPath,namePDF);
@@ -55,9 +58,9 @@ public class FacturePDF {
         Paragraph adress=new Paragraph("Avenida de prueba Nº89 S/N").setFontSize(10).setTextAlignment(TextAlignment.CENTER);
         Paragraph nif=new Paragraph("NIF:585698985668").setFontSize(10).setTextAlignment(TextAlignment.CENTER);
         Paragraph separator=new Paragraph("------------------------------------------------------").setFontSize(10).setTextAlignment(TextAlignment.CENTER);
-        Calendar calendar=Calendar.getInstance();
         SimpleDateFormat format=new SimpleDateFormat("dd/MM/yyyy");
-        Paragraph factura=new Paragraph(format.format(calendar.getTime())+ "  Nº Factura simplicada: "+grade).setFontSize(10).setTextAlignment(TextAlignment.CENTER);
+
+        Paragraph factura=new Paragraph(format.format(date.getTime())+ "  Nº Factura simplicada: "+grade).setFontSize(10).setTextAlignment(TextAlignment.CENTER);
         float[] width={550f,100f,75f,100f};
         Table table= new Table(width);
         table.setHorizontalAlignment(HorizontalAlignment.CENTER);
@@ -112,6 +115,7 @@ public class FacturePDF {
         document.close();
 
         this.grade++;
+        return myFile;
     }
 
 }

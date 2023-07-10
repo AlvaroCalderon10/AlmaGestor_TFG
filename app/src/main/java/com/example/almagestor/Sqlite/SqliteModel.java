@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.icu.util.Calendar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import com.example.almagestor.DTOs.UserDTO;
 import com.example.almagestor.ListAdapters.ListAdapterProductBean;
 import com.example.almagestor.Products.ProductDataDTO;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class SqliteModel {
@@ -143,6 +145,26 @@ public class SqliteModel {
         c.close();
         db.close();
         return product_list;
+    }
+    public long insert_logVente (Context context, String money, Calendar date,String file){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        SimpleDateFormat format=new SimpleDateFormat("dd/MM/yyyy");
+
+        ContentValues values=new ContentValues();
+        values.put("groupeid",groupeid);
+        values.put("moneycash",money);
+        values.put("date",format.format(date.getTime()));
+        values.put("file",file);
+        try {
+            SQLiteDatabase db =this.getConn(context);
+            long rowid=db.insert("logvente",null,values);
+            db.close();
+            return rowid;
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+        }
+        return -1;
     }
 
 
