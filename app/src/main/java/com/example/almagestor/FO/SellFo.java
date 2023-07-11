@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -142,14 +143,12 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 try{
                     Calendar calendar= Calendar.getInstance();
                     File file_pdf=objFacture.createPdf(elements,calendar);
+                    //Thread works on imputs while execution doesnt stops.
+                    BDThread thread=new BDThread(this,money_shop,calendar, file_pdf.toString(),elements);
+                    thread.start();
+
                     if(file_pdf!=null){
                         showPDF(file_pdf);
-                    }
-                    //Insertar log en BD.
-                    SqliteModel obj=new SqliteModel();
-                    long id= obj.insert_logVente(this,money_shop.toString(),calendar,"file");
-                    if(id!=-1){
-                        //inserta productos.
                     }
 
                 }catch (Exception e){
@@ -273,4 +272,34 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     public void setMoney_shop(Double money_shop) {
         this.money_shop = money_shop;
     }
+
+    class BDThread extends Thread{
+        Context context;
+        Double money;
+        Calendar calendar;
+        String file;
+        List<ProductDataDTO> products;
+        long id_fk;
+        BDThread (Context context,Double money,Calendar calendar,String file, List<ProductDataDTO> products){
+            this.context=context;
+            this.money=money;
+            this.calendar=calendar;
+            this.file=file;
+            this.products=products;
+        }
+        @Override
+        public void run(){
+            SqliteModel obj=new SqliteModel();
+            id_fk= obj.insert_logVente(context,money.toString(),calendar,file);
+            if(id_fk!=-1){
+                Boolean Bd_insert=obj.insert_logVenteProducts(context,products,id_fk);
+                if(Bd_insert==false){
+                    Toast.makeText(SellFo.this,"DB incorrect insert on products", Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                Toast.makeText(SellFo.this,"DB incorrect id on logvente", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }

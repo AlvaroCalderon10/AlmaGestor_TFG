@@ -15,6 +15,7 @@ import com.example.almagestor.Products.ProductDataDTO;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SqliteModel {
     private static final String TAG = "SQLiteModel";
@@ -165,6 +166,40 @@ public class SqliteModel {
             Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
         }
         return -1;
+    }
+    public boolean insert_logVenteProducts (Context context, List<ProductDataDTO> products,long fk_logvente ){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        ArrayList<Boolean> results=new ArrayList<Boolean>();
+        SimpleDateFormat format=new SimpleDateFormat("dd/MM/yyyy");
+        for(int i=0;i<products.size();i++){
+            ContentValues values=new ContentValues();
+            values.put("groupeid",groupeid);
+            values.put("fk_logvente",fk_logvente);
+            values.put("productName",products.get(i).getNameProduct());
+            values.put("quantity",products.get(i).getUnits());
+            values.put("price",products.get(i).getPrice());
+            try {
+                SQLiteDatabase db =this.getConn(context);
+                long rowid=db.insert("productslogvente",null,values);
+                db.close();
+                results.add(true);
+            }catch (SQLException e){
+                Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+                results.add(false);
+            }
+        }
+        int finalize=0;
+        for(int a=0;a<results.size();a++){
+            if(results.get(a)==true){
+                finalize++;
+            }
+        }
+        if(finalize==products.size()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 
