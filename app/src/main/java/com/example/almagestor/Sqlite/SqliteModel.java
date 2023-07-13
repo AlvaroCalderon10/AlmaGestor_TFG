@@ -9,6 +9,7 @@ import android.icu.util.Calendar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.almagestor.DTOs.ShopDTO;
 import com.example.almagestor.DTOs.UserDTO;
 import com.example.almagestor.ListAdapters.ListAdapterProductBean;
 import com.example.almagestor.Products.ProductDataDTO;
@@ -64,7 +65,28 @@ public class SqliteModel {
         try {
             SQLiteDatabase db =this.getConn(context);
             db.execSQL(sql);
+            if(insert_shop_init(context,dto)){
+                return true;
+            }else{
+                Log.e(TAG,"Failure on DB-insert on shopInit");
+            };
             return true;
+
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+        }
+        return false;
+    }
+    public boolean insert_shop_init(Context context, UserDTO dto){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        String sql="INSERT INTO shopinfo (groupeid, codepdv, company_name) VALUES ('"+groupeid+"','"+pdv+"','"+dto.getCompany_name()+"')";
+        try {
+            SQLiteDatabase db =this.getConn(context);
+            db.execSQL(sql);
+            db.close();
+            return true;
+
         }catch (SQLException e){
             Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
         }
@@ -200,6 +222,75 @@ public class SqliteModel {
         }else{
             return false;
         }
+    }
+    public ShopDTO getShopdata(Context context, String groupeid_user) {
+        ShopDTO data = null;
+        String groupeid="10014";
+        try{
+            SQLiteDatabase db = this.getConn(context);
+            Cursor c = db.rawQuery("SELECT codepdv,company_name, street, infoStreet, phone,email  FROM shopinfo WHERE groupeid = ?", new String[]{groupeid});
+            if (c.moveToFirst()) {
+                do {
+                    String pdv=c.getString(0);
+                    String company_name=c.getString(1);
+                    String street =c.getString(2);
+                    String infoStreet= c.getString(3);
+                    String phone=c.getString(4);
+                    String email=c.getString(5);
+                    data = new ShopDTO(company_name,pdv,street,infoStreet,phone,email);
+                } while (c.moveToNext());
+            }
+            c.close();
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+        }
+        return data;
+    }
+    public boolean updatecompany_name(Context context,String value){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        ContentValues values=new ContentValues();
+        values.put("company_name",value);
+        try{
+            SQLiteDatabase db =this.getConn(context);
+            db.update("shopinfo",values,"groupeid= ?",new String[]{groupeid});
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    public boolean updatecompany_phone(Context context,String value){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        ContentValues values=new ContentValues();
+        values.put("phone",value);
+        try{
+            SQLiteDatabase db =this.getConn(context);
+            db.update("shopinfo",values,"groupeid= ?",new String[]{groupeid});
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    public boolean updatecompany_email(Context context,String value){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        ContentValues values=new ContentValues();
+        values.put("phone",value);
+        try{
+            SQLiteDatabase db =this.getConn(context);
+            db.update("shopinfo",values,"groupeid= ?",new String[]{groupeid});
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+            return false;
+        }
+        return true;
     }
 
 

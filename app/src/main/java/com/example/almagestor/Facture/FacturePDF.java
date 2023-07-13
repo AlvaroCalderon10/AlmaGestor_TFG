@@ -41,7 +41,7 @@ import java.util.List;
 
 public class FacturePDF {
     private static int grade=00000;
-    public File createPdf(List<ProductDataDTO> elements, Calendar date) throws FileNotFoundException {
+    public File createPdf(List<ProductDataDTO> elements, Calendar date,Double money_shop) throws FileNotFoundException {
         String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
         String namePDF="Factura_Nº:"+grade+".pdf";
         File myFile= new File(pdfPath,namePDF);
@@ -70,12 +70,14 @@ public class FacturePDF {
         table.addCell(new Cell().add(new Paragraph("UD").setBold().setFontSize(12)));
         table.addCell(new Cell().add(new Paragraph("Total").setBold().setFontSize(12)));
         //Products
-        table.addCell(new Cell().add(new Paragraph("Producto Prueba nº5")));
-        table.addCell(new Cell().add(new Paragraph("10.00")));
-        table.addCell(new Cell().add(new Paragraph("2")));
-        table.addCell(new Cell().add(new Paragraph("20")));
+        for(int i =0;i<elements.size();i++){
+            table.addCell(new Cell().add(new Paragraph(elements.get(i).getNameProduct())));
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(elements.get(i).getPrice()))));
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(elements.get(i).getUnits()))));
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(elements.get(i).getPrice()*elements.get(i).getUnits()))));
+        }
         //total
-        Paragraph total=new Paragraph("TOTAL: "+20).setBold().setFontSize(15).setTextAlignment(TextAlignment.RIGHT).setMarginRight(20).setMarginTop(10);
+        Paragraph total=new Paragraph("TOTAL: "+money_shop).setBold().setFontSize(15).setTextAlignment(TextAlignment.RIGHT).setMarginRight(20).setMarginTop(10);
 
         //Desglose de IVA
 
@@ -95,11 +97,11 @@ public class FacturePDF {
         table2.addCell(new Cell().add(new Paragraph("20")).setBorder(Border.NO_BORDER));
 
         //BARCODE
-        BarcodeQRCode qrCode = new BarcodeQRCode("1256325638");
+        BarcodeQRCode qrCode = new BarcodeQRCode(myFile.toString());
         PdfFormXObject qrCodeObject=qrCode.createFormXObject(ColorConstants.BLACK,pdfDocument);
         Image qrCodeImage= new Image(qrCodeObject).setWidth(70).setHorizontalAlignment(HorizontalAlignment.CENTER);
         //EAN
-        Paragraph ean_sufix=new Paragraph("1256325638").setBold().setFontSize(8).setTextAlignment(TextAlignment.CENTER);
+        Paragraph ean_sufix=new Paragraph(myFile.toString()).setBold().setFontSize(8).setTextAlignment(TextAlignment.CENTER);
 
         document.add(title);
         document.add(adress);

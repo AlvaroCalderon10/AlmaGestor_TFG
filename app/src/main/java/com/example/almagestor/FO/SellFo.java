@@ -142,19 +142,16 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 FacturePDF objFacture= new FacturePDF();
                 try{
                     Calendar calendar= Calendar.getInstance();
-                    File file_pdf=objFacture.createPdf(elements,calendar);
-                    //Thread works on imputs while execution doesnt stops.
+                    File file_pdf=objFacture.createPdf(elements,calendar,this.money_shop);
+                    //Thread works on inputs while execution doesnt stops.
                     BDThread thread=new BDThread(this,money_shop,calendar, file_pdf.toString(),elements);
                     thread.start();
-
                     if(file_pdf!=null){
                         showPDF(file_pdf);
                     }
-
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
 
         }
