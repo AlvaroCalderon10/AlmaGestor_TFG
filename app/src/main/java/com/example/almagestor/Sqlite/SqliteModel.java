@@ -9,10 +9,12 @@ import android.icu.util.Calendar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.almagestor.DTOs.ClientDTO;
 import com.example.almagestor.DTOs.ShopDTO;
 import com.example.almagestor.DTOs.UserDTO;
 import com.example.almagestor.ListAdapters.ListAdapterProductBean;
 import com.example.almagestor.Products.ProductDataDTO;
+import com.google.android.gms.common.util.ArrayUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -169,6 +171,45 @@ public class SqliteModel {
         db.close();
         return product_list;
     }
+    public ArrayList<ClientDTO> list_clients(Context context, String groupeid_user) {
+        SQLiteDatabase db = this.getConn(context);
+        ArrayList<ClientDTO> client_list = new ArrayList<>();
+        ClientDTO client = null;
+        String groupeid="10014";
+        Cursor c = db.rawQuery("SELECT groupeid, name, nif, phone, streetinfo FROM clientsinfo WHERE groupeid = ?", new String[]{groupeid});
+        if (c.moveToFirst()) {
+            do {
+                String name=c.getString(1);
+                String nif =c.getString(2);
+                String phone= c.getString(3);
+                String street= c.getString(4);
+                client = new ClientDTO(name,nif,phone,street);
+                client_list.add(client);
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return client_list;
+    }
+    public long insert_client (Context context, ClientDTO client){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        ContentValues values=new ContentValues();
+        values.put("groupeid",groupeid);
+        values.put("name",client.getName());
+        values.put("nif",client.getNif());
+        values.put("phone",client.getPhone());
+        values.put("streetinfo",client.getStreet());
+        try {
+            SQLiteDatabase db =this.getConn(context);
+            long rowid=db.insert("clientsinfo",null,values);
+            db.close();
+            return rowid;
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+        }
+        return -1;
+    }
     public long insert_logVente (Context context, String money, Calendar date,String file){
         String pdv="28999999";//coger DB
         String groupeid="10014"; //Coger DB
@@ -291,6 +332,96 @@ public class SqliteModel {
             return false;
         }
         return true;
+    }
+    public ArrayList<ClientDTO> getClientforSearch(Context context, String value) {
+        ArrayList<ClientDTO> arr_name=clientBYname(context,value);
+        ArrayList<ClientDTO> arr_nif=clientBYnif(context,value);
+        ArrayList<ClientDTO> arr_phone=clientBYphone(context,value);
+        ArrayList<ClientDTO> result= new ArrayList<>();
+        if(!arr_name.isEmpty()){
+            result.addAll(arr_name);
+        } else if (!arr_nif.isEmpty()) {
+            result.addAll(arr_nif);
+        } else if (!arr_phone.isEmpty()) {
+            result.addAll(arr_phone);
+        }
+        return result;
+
+    }
+    private ArrayList<ClientDTO> clientBYname(Context context,String name){
+        ClientDTO data = null;
+        String groupeid="10014";
+        ArrayList<ClientDTO> arrayList=new ArrayList<ClientDTO>();
+        String input="%"+name+"%";
+        try{
+            SQLiteDatabase db = this.getConn(context);
+            Cursor c = db.rawQuery("SELECT groupeid, name, nif, phone, streetinfo FROM clientsinfo WHERE name like ?", new String[]{input});
+            if (c.moveToFirst()) {
+                do {
+                    String nameClient=c.getString(1);
+                    String nif=c.getString(2);
+                    String phone =c.getString(3);
+                    String streetinfo= c.getString(4);
+                    data = new ClientDTO(nameClient,nif,phone,streetinfo);
+                    arrayList.add(data);
+                } while (c.moveToNext());
+            }
+            c.close();
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+        }
+        return arrayList;
+    }
+    private ArrayList<ClientDTO> clientBYnif(Context context,String nif){
+        ClientDTO data = null;
+        String groupeid="10014";
+        ArrayList<ClientDTO> arrayList=new ArrayList<ClientDTO>();
+        String input=nif+"%";
+        try{
+            SQLiteDatabase db = this.getConn(context);
+            Cursor c = db.rawQuery("SELECT groupeid, name, nif, phone, streetinfo FROM clientsinfo WHERE name like ?", new String[]{input});
+            if (c.moveToFirst()) {
+                do {
+                    String nameClient=c.getString(1);
+                    String nifClient=c.getString(2);
+                    String phone =c.getString(3);
+                    String streetinfo= c.getString(4);
+                    data = new ClientDTO(nameClient,nifClient,phone,streetinfo);
+                    arrayList.add(data);
+                } while (c.moveToNext());
+            }
+            c.close();
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+        }
+        return arrayList;
+    }
+    private ArrayList<ClientDTO> clientBYphone(Context context,String phone){
+        ClientDTO data = null;
+        String groupeid="10014";
+        ArrayList<ClientDTO> arrayList=new ArrayList<ClientDTO>();
+        String input=phone+"%";
+        try{
+            SQLiteDatabase db = this.getConn(context);
+            Cursor c = db.rawQuery("SELECT groupeid, name, nif, phone, streetinfo FROM clientsinfo WHERE name like ?", new String[]{input});
+            if (c.moveToFirst()) {
+                do {
+                    String nameClient=c.getString(1);
+                    String nif=c.getString(2);
+                    String phoneClient =c.getString(3);
+                    String streetinfo= c.getString(4);
+                    data = new ClientDTO(nameClient,nif,phoneClient,streetinfo);
+                    arrayList.add(data);
+                } while (c.moveToNext());
+            }
+            c.close();
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+        }
+        return arrayList;
     }
 
 

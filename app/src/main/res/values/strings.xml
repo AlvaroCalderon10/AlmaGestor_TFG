@@ -18,8 +18,12 @@
     <string name="forgotPassword">¿Ha olvidado la contraseña?</string>
     <string name="password2">Insertela de nuevo</string>
     <string name="Venta">Venta</string>
+    <string name="Buscar">Buscar</string>
+    <string name="Llamar">Llamar</string>
+    <string name="TakeAway">Recogida</string>
     <string name="Productos">Productos</string>
     <string name="Entregas">Entregas</string>
+    <string name="Clientes">Clientes</string>
     <string name="Registrar">Registrar</string>
     <string name="Facturas">Facturas</string>
     <string name="Registrar_factura">Registrar Factura</string>
@@ -45,5 +49,11 @@
     <string name="info_product_Stock">Stock: </string>
     <string name="miss_name_ean">Falta nombre o ean de producto </string>
     <string name="saveCorrect">Guardado </string>
+    <string name="AddClientHeader">Creación de Clientes</string>
+    <string name="NameClient">Nombre Cliente: </string>
+    <string name="NifClient">NIF: </string>
+    <string name="PhoneClient">Teléfono: </string>
+    <string name="StreetClient">Dirección: </string>
+
 
 </resources>

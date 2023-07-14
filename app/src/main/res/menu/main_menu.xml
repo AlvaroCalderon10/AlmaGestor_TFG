@@ -11,40 +11,12 @@
             android:icon="@drawable/icon_productos"
             android:iconTint="@color/purple"
             android:title="@string/Productos" />
-
+        <item
+            android:id="@+id/nav_clientes"
+            android:icon="@drawable/icon_clients"
+            android:iconTint="@color/purple"
+            android:title="@string/Clientes" />
     </group>
-        <item android:title="@string/Entregas">
-            <menu>
-                <group android:checkableBehavior="single">
-                    <item
-                        android:id="@+id/nav_entrega"
-                        android:icon="@drawable/icon_entrega"
-                        android:iconTint="@color/purple"
-                        android:title="@string/Entregas" />
-                    <item
-                        android:id="@+id/nav_entrega_registrar"
-                        android:icon="@drawable/icon_insert"
-                        android:title="@string/Registrar" />
-                </group>
-            </menu>
-        </item>
-
-        <item android:title="@string/Facturas">
-            <menu>
-                <group android:checkableBehavior="single">
-                    <item
-                        android:id="@+id/nav_facturas"
-                        android:icon="@drawable/icon_invoice"
-                        android:iconTint="@color/purple"
-                        android:title="@string/Facturas" />
-                    <item
-                        android:id="@+id/nav_facturas_registrar"
-                        android:icon="@drawable/icon_insert"
-                        android:iconTint="@color/purple"
-                        android:title="@string/Registrar_factura" />
-                </group>
-            </menu>
-        </item>
 
     <item android:title="@string/Tienda">
         <menu>

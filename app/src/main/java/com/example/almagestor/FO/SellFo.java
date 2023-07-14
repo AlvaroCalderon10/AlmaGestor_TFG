@@ -252,8 +252,8 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 startActivity(intent);
                 overridePendingTransition(0,0);
                 break;
-            case R.id.nav_facturas:
-                Toast.makeText(this,"Facturas", Toast.LENGTH_SHORT).show();
+            case R.id.nav_clientes:
+                Toast.makeText(this,"Clientes", Toast.LENGTH_SHORT).show();
             case R.id.nav_producto:
                 Intent intent2 = new Intent(SellFo.this, ProductsBean.class);
                 startActivity(intent2);
