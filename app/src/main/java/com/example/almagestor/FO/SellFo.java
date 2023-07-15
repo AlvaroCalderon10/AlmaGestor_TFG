@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.almagestor.DTOs.AdressDTO;
+import com.example.almagestor.Clients.clients;
 import com.example.almagestor.Facture.FacturePDF;
 import com.example.almagestor.ListAdapters.ListAdapter;
 import com.example.almagestor.MainActivity;
@@ -279,6 +279,10 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 break;
             case R.id.nav_clientes:
                 Toast.makeText(this,"Clientes", Toast.LENGTH_SHORT).show();
+                Intent intent3=new Intent(SellFo.this, clients.class);
+                startActivity(intent3);
+                overridePendingTransition(0,0);
+                break;
             case R.id.nav_producto:
                 Intent intent2 = new Intent(SellFo.this, ProductsBean.class);
                 startActivity(intent2);

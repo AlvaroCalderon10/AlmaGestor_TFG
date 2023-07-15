@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.almagestor.CallandMsg.CallandMsg;
 import com.example.almagestor.DTOs.ClientDTO;
 import com.example.almagestor.R;
 
@@ -34,13 +36,32 @@ public class ListAdapterClientBean extends RecyclerView.Adapter<ListAdapterClien
 
     @Override
     public ListAdapterClientBean.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view=mInflater.inflate(R.layout.product_data_bean,null);
+        View view=mInflater.inflate(R.layout.client_data_bean,null);
         return new ListAdapterClientBean.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ListAdapterClientBean.ViewHolder holder, final int position){
         holder.bindData(mData.get(position));
+
+        holder.msg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CallandMsg obj=new CallandMsg();
+                if(!obj.sendMSG(holder.phoneClient.getText().toString(),context)){
+                    Toast.makeText(context, "FAIL on send MSG", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        holder.call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CallandMsg obj=new CallandMsg();
+                if(!obj.sendCALL(holder.phoneClient.getText().toString(),context)){
+                    Toast.makeText(context, "FAIL on send CALL", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void setItems(List<ClientDTO> items){mData=items;}

@@ -4,29 +4,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.example.almagestor.DTOs.AdressDTO;
 import com.example.almagestor.DTOs.ClientDTO;
 import com.example.almagestor.ListAdapters.ListAdapterClientBean;
-import com.example.almagestor.ListAdapters.ListAdapterProductBean;
-import com.example.almagestor.Products.ProductDataDTO;
-import com.example.almagestor.Products.ProductsBean;
 import com.example.almagestor.R;
 import com.example.almagestor.Sqlite.SqliteModel;
-import com.example.almagestor.shopActivity.Shop;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class clients extends AppCompatActivity {
-
+    private static final int PHONE_PERMISSION_REQUEST_CODE =100;
     List<ClientDTO> elementsLocal=new ArrayList<>();
     List<ClientDTO> elementsSearch=new ArrayList<>();
     EditText inputdata;
@@ -44,12 +42,13 @@ public class clients extends AppCompatActivity {
         search=findViewById(R.id.search_btn_clients);
         add_client=findViewById(R.id.add_btn_client);
         init_list();
+        init_permissions();
 
         add_client.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Dialog dialog= new Dialog(clients.this);
-                dialog.setContentView(R.layout.custom_dialog_adress);
+                dialog.setContentView(R.layout.input_data_client);
                 Save=dialog.findViewById(R.id.btn_yes_inputdata_client);
                 Cancel=dialog.findViewById(R.id.btn_no_inputdata_client);
                 Close=dialog.findViewById(R.id.btn_close_inputdata_client);
@@ -57,7 +56,7 @@ public class clients extends AppCompatActivity {
                 NIFInput=dialog.findViewById(R.id.inputNIF_data_clientData);
                 phoneInput=dialog.findViewById(R.id.inputPHONE_data_clientData);
                 streetInput=dialog.findViewById(R.id.inputSTREET_data_clientData);
-                dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_window_pdf);
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_window_client);
                 Close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -127,5 +126,33 @@ public class clients extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(clients.this));
         recyclerView.setAdapter(listAdapterClientBean);
+    }
+    public void init_permissions(){
+        if(checkSelfPermission(Manifest.permission.SEND_SMS)== PackageManager.PERMISSION_GRANTED){
+
+        }else{
+            String value=Manifest.permission.SEND_SMS;
+            String[] permissionRequested=new String[]{value};
+            requestPermissions(permissionRequested, PHONE_PERMISSION_REQUEST_CODE);
+        }
+        if(checkSelfPermission(Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
+
+        }else{
+            String value=Manifest.permission.CALL_PHONE;
+            String[] permissionRequested=new String[]{value};
+            requestPermissions(permissionRequested, PHONE_PERMISSION_REQUEST_CODE);
+        }
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestcode, String[] permissions, int[] grantResults){
+        super.onRequestPermissionsResult(requestcode,permissions,grantResults);
+        if (requestcode== PHONE_PERMISSION_REQUEST_CODE){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                return;
+            } else{
+                Toast.makeText(this, "Unable to invoke Send mesagges without permision", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
