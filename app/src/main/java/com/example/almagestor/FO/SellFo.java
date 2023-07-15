@@ -10,10 +10,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -45,6 +47,7 @@ import java.util.Date;
 import java.util.List;
 
 public class SellFo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final int STORAGE_PERMISSION_REQUEST_CODE=9;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -138,22 +141,44 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 scanCode(); //Scan Scan
                 return;
             }else if(button.getTag().toString().equals("2")) {//Finish
-                //Generar factura simple compra
-                FacturePDF objFacture= new FacturePDF();
-                try{
-                    Calendar calendar= Calendar.getInstance();
-                    File file_pdf=objFacture.createPdf(elements,calendar,this.money_shop);
-                    //Thread works on inputs while execution doesnt stops.
-                    BDThread thread=new BDThread(this,money_shop,calendar, file_pdf.toString(),elements);
-                    thread.start();
-                    if(file_pdf!=null){
-                        showPDF(file_pdf);
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
+                //Comprobar permiso
+                if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
+                    processFacture(); //Generar factura simple compra
+                }else{
+                    String value=Manifest.permission.WRITE_EXTERNAL_STORAGE;
+                    String[] permissionRequested=new String[]{value};
+                    requestPermissions(permissionRequested,STORAGE_PERMISSION_REQUEST_CODE);
                 }
+
             }
 
+        }
+    }
+    public void processFacture(){
+        FacturePDF objFacture= new FacturePDF();
+        try{
+            Calendar calendar= Calendar.getInstance();
+            File file_pdf=objFacture.createPdf(elements,calendar,this.money_shop);
+            //Thread works on inputs while execution doesnt stops.
+            BDThread thread=new BDThread(this,money_shop,calendar, file_pdf.toString(),elements);
+            thread.start();
+            if(file_pdf!=null){
+                showPDF(file_pdf);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestcode, String[] permissions, int[] grantResults){
+        super.onRequestPermissionsResult(requestcode,permissions,grantResults);
+        if (requestcode==STORAGE_PERMISSION_REQUEST_CODE){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                processFacture();
+            } else{
+                Toast.makeText(this, "Unable to invoke storage without permision", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
