@@ -18,14 +18,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.almagestor.Clients.clients;
+import com.example.almagestor.DTOs.ClientDTO;
 import com.example.almagestor.Facture.FacturePDF;
 import com.example.almagestor.ListAdapters.ListAdapter;
 import com.example.almagestor.MainActivity;
@@ -42,6 +46,7 @@ import com.journeyapps.barcodescanner.ScanOptions;
 import com.pdfview.PDFView;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -63,6 +68,10 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     PDFView viewPDF;
     Button OK,Cancel;
     ImageView Close;
+    Button btn_efective,btn_card;
+    EditText quantite_return_paiment, input_quantite_paiment;
+    TextView quantiteToPay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,20 +150,83 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 scanCode(); //Scan Scan
                 return;
             }else if(button.getTag().toString().equals("2")) {//Finish
-                //Comprobar permiso
-                if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
-                    processFacture(); //Generar factura simple compra
-                }else{
-                    String value=Manifest.permission.WRITE_EXTERNAL_STORAGE;
-                    String[] permissionRequested=new String[]{value};
-                    requestPermissions(permissionRequested,STORAGE_PERMISSION_REQUEST_CODE);
-                }
-
+                //Forma de pago
+                init_paiment();
             }
 
         }
     }
+    public void init_paiment(){
+        Dialog dialog= new Dialog(SellFo.this);
+        dialog.setContentView(R.layout.card_efective_lay);
+        Close=dialog.findViewById(R.id.btn_close_card_efective);
+        btn_efective=dialog.findViewById(R.id.efective_btn_lay);
+        btn_card=dialog.findViewById(R.id.tarjeta_btn_lay);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_window_client);
+        Close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        btn_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                processFacture();
+                dialog.dismiss();
+            }
+        });
+        btn_efective.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                init_efective_paiment();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    public void init_efective_paiment(){
+        Dialog dialog= new Dialog(SellFo.this);
+        dialog.setContentView(R.layout.efective_paiment_lay);
+        Close=dialog.findViewById(R.id.btn_close_efective_paiment);
+        OK=dialog.findViewById(R.id.btn_yes_efective_paiment);
+        Cancel=dialog.findViewById(R.id.btn_no_lay_efective_paiment);
+        quantiteToPay=dialog.findViewById(R.id.total_efective_paiment);
+        input_quantite_paiment=dialog.findViewById(R.id.cobrado_efective_paiment);
+        quantite_return_paiment=dialog.findViewById(R.id.return_efective_paiment);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_window_client);
+        quantiteToPay.setText(money_shop.toString().trim());
+        input_quantite_paiment.addTextChangedListener(onTextChangedListener());
+        Close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        OK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                processFacture();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
     public void processFacture(){
+        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
+             //Generar factura simple compra continue
+        }else{
+            String value=Manifest.permission.WRITE_EXTERNAL_STORAGE;
+            String[] permissionRequested=new String[]{value};
+            requestPermissions(permissionRequested,STORAGE_PERMISSION_REQUEST_CODE);
+        }
         FacturePDF objFacture= new FacturePDF();
         try{
             Calendar calendar= Calendar.getInstance();
@@ -326,6 +398,38 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 Toast.makeText(SellFo.this,"DB incorrect id on logvente", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+    private TextWatcher onTextChangedListener() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                input_quantite_paiment.removeTextChangedListener(this);
+                DecimalFormat df = new DecimalFormat("#.00");
+                try {
+                    String inputString=input_quantite_paiment.getText().toString();
+                    Double toPay= Double.valueOf(df.format(money_shop.doubleValue()));
+                    Double inputDouble=Double.valueOf(inputString);
+                    String returnValue=df.format(toPay-inputDouble);
+
+                    //setting text after format to EditText
+                    quantite_return_paiment.setText(returnValue);
+                    quantite_return_paiment.setSelection(input_quantite_paiment.getText().length());
+                } catch (NumberFormatException nfe) {
+                    nfe.printStackTrace();
+                }
+                input_quantite_paiment.addTextChangedListener(this);
+            }
+        };
     }
 
 }

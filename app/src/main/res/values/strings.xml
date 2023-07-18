@@ -54,6 +54,11 @@
     <string name="NifClient">NIF: </string>
     <string name="PhoneClient">Teléfono: </string>
     <string name="StreetClient">Dirección: </string>
+    <string name="WayofPaiment">¿Forma de pago? </string>
+    <string name="efectivo">Efectivo </string>
+    <string name="tarjeta">Tarjeta </string>
+    <string name="pagar">Total: </string>
+    <string name="Pagado">Cobrado: </string>
 
 
 </resources>
