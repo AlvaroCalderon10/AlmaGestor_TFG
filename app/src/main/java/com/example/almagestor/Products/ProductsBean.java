@@ -100,11 +100,11 @@ public class ProductsBean extends AppCompatActivity {
                             //guardar en DB
                             SqliteModel obj=new SqliteModel();
                             if(obj.insert_Product(ProductsBean.this,dto)==true){
-                                Toast.makeText(ProductsBean.this,"@string/saveCorrect", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProductsBean.this,ProductsBean.this.getResources().getString(R.string.saveCorrect), Toast.LENGTH_SHORT).show();
                             }
                             dialog.dismiss();
                         }else{
-                            Toast.makeText(ProductsBean.this,"@string/miss_name_ean", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProductsBean.this,ProductsBean.this.getResources().getString(R.string.miss_name_ean), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
