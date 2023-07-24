@@ -59,6 +59,7 @@
     <string name="tarjeta">Tarjeta </string>
     <string name="pagar">Total: </string>
     <string name="Pagado">Cobrado: </string>
-
-
+    <string name="ProductoBorrado">Producto borrado con éxito db </string>
+    <string name="SELLFOBean">Menú de venta</string>
+    <string name="FOProductos">Pestaña productos: </string>
 </resources>

@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingRight="25dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="60dp"
                 android:text="0.00 €"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/red"
@@ -223,6 +223,7 @@
         android:layout_gravity="start"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
         app:headerLayout="@layout/menu_header"
         app:menu="@menu/main_menu" />
 

@@ -150,6 +150,21 @@ public class SqliteModel {
         }
         return false;
     }
+    public boolean delete_Product(Context context, String eanValue){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        if(!eanValue.isEmpty()){
+            try {
+                SQLiteDatabase db =this.getConn(context);
+                db.delete("product","ean" + "=?",new String[]{eanValue});
+                db.close();
+                return true;
+            }catch (SQLException e){
+                Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+            }
+        }
+        return false;
+    }
     public ArrayList<ProductDataDTO> list_products(Context context, String groupeid_user) {
         SQLiteDatabase db = this.getConn(context);
         ArrayList<ProductDataDTO> product_list = new ArrayList<>();

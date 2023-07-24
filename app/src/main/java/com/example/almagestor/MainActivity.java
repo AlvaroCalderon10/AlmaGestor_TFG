@@ -22,6 +22,8 @@ import com.example.almagestor.Login.NewUser;
 import com.example.almagestor.Sqlite.SqliteModel;
 import com.example.almagestor.Validation.Encryption;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
     EditText username;
     EditText password;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         new_user=findViewById(R.id.signupText);
         forgotPassword=findViewById(R.id.forgotPassword);
+        Objects.requireNonNull(getSupportActionBar()).hide();
         UserDTO user_data= DB_local.getFromLocal(MainActivity.this);
         String password_encrypted="";
         loginButton.setOnClickListener(new View.OnClickListener() {

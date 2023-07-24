@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import com.example.almagestor.MainActivity;
 import com.example.almagestor.R;
 
+import java.util.Objects;
+
 public class LogoHeader extends AppCompatActivity {
     ImageView image;
     @Override
@@ -27,6 +29,7 @@ public class LogoHeader extends AppCompatActivity {
         Animation animation1= AnimationUtils.loadAnimation(this,R.anim.desplazamiento_arriba);
         image=findViewById(R.id.imageView);
         image.setAnimation(animation1);
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         new Handler().postDelayed(new Runnable() {
             @Override

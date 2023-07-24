@@ -16,6 +16,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,7 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.almagestor.Clients.clients;
-import com.example.almagestor.DTOs.ClientDTO;
 import com.example.almagestor.Facture.FacturePDF;
 import com.example.almagestor.ListAdapters.ListAdapter;
 import com.example.almagestor.MainActivity;
@@ -45,10 +46,15 @@ import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 import com.pdfview.PDFView;
 
+import org.json.JSONException;
+
 import java.io.File;
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SellFo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -76,6 +82,8 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle(SellFo.this.getResources().getString(R.string.SELLFOBean));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(SellFo.this.getColor(R.color.purple_700)));
         setContentView(R.layout.activity_sell_fo);
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
@@ -83,8 +91,6 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         screen=findViewById(R.id.textView);
         toolbar.setVisibility(View.GONE);
         money=findViewById(R.id.cash_money);
-
-        setSupportActionBar(toolbar);
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.OpenNavigation,R.string.CloseNavigation);
         drawerLayout.addDrawerListener(toggle);
@@ -153,7 +159,6 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 //Forma de pago
                 init_paiment();
             }
-
         }
     }
     public void init_paiment(){
