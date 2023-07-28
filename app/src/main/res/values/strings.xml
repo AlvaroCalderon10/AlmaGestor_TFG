@@ -60,6 +60,9 @@
     <string name="pagar">Total: </string>
     <string name="Pagado">Cobrado: </string>
     <string name="ProductoBorrado">Producto borrado con éxito db </string>
-    <string name="SELLFOBean">Menú de venta</string>
-    <string name="FOProductos">Pestaña productos: </string>
+    <string name="SELLFOBean">Introduce Código Barras: </string>
+    <string name="FOProductos">Productos </string>
+    <string name="FOClients">Clientes </string>
+    <string name="CerrarSesion">Cerrar Sesión </string>
+    <string name="Synchro">Copia Seguridad</string>
 </resources>

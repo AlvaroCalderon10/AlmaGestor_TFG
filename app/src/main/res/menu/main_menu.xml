@@ -29,5 +29,16 @@
             </group>
         </menu>
     </item>
+    <item android:title="@string/CerrarSesion">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_bdExport_tienda"
+                    android:icon="@drawable/drawable_save_alt_24"
+                    android:iconTint="@color/purple"
+                    android:title="@string/Synchro" />
+            </group>
+        </menu>
+    </item>
 
 </menu>

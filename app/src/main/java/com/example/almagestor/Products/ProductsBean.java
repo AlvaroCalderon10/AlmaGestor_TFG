@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -54,6 +55,8 @@ public class ProductsBean extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_bean);
         add_product=findViewById(R.id.add_btn_product);
+        getSupportActionBar().setTitle(ProductsBean.this.getResources().getString(R.string.FOProductos));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ProductsBean.this.getColor(R.color.purple_700)));
         init_list();
         add_product.setOnClickListener((new View.OnClickListener() {
             @Override

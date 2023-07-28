@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.almagestor.DTOs.ClientDTO;
 import com.example.almagestor.ListAdapters.ListAdapterClientBean;
+import com.example.almagestor.Products.ProductsBean;
 import com.example.almagestor.R;
 import com.example.almagestor.Sqlite.SqliteModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,6 +43,8 @@ public class clients extends AppCompatActivity {
         inputdata=findViewById(R.id.input_text_clients);
         search=findViewById(R.id.search_btn_clients);
         add_client=findViewById(R.id.add_btn_client);
+        getSupportActionBar().setTitle(clients.this.getResources().getString(R.string.FOClients));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(clients.this.getColor(R.color.purple_700)));
         init_list();
         init_permissions();
 

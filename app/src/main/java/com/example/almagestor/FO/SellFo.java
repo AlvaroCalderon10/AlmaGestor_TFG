@@ -16,7 +16,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -32,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.almagestor.Clients.clients;
 import com.example.almagestor.Facture.FacturePDF;
+import com.example.almagestor.GoogleDrive.GoogleDriveActivity;
 import com.example.almagestor.ListAdapters.ListAdapter;
 import com.example.almagestor.MainActivity;
 import com.example.almagestor.Products.ProductDataDTO;
@@ -46,19 +46,15 @@ import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 import com.pdfview.PDFView;
 
-import org.json.JSONException;
-
 import java.io.File;
-import java.io.IOException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SellFo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final int STORAGE_PERMISSION_REQUEST_CODE=9;
+    private static final int GET_ACOUNTS_PERMISSION_REQUEST_CODE=8;
+    private static final int READ_STORAGE_PERMISSION_REQUEST_CODE=7;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -365,6 +361,18 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 startActivity(intent2);
                 overridePendingTransition(0,0);
                 break;
+            case R.id.nav_bdExport_tienda:
+                if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
+                    //Generar factura simple compra continue
+                }else{
+                    String value=Manifest.permission.READ_EXTERNAL_STORAGE;
+                    String value1=Manifest.permission.WRITE_EXTERNAL_STORAGE;
+                    String[] permissionRequested=new String[]{value,value1};
+                    requestPermissions(permissionRequested,STORAGE_PERMISSION_REQUEST_CODE);
+                }
+                Intent intent4 = new Intent(SellFo.this, GoogleDriveActivity.class);
+                startActivity(intent4);
+                overridePendingTransition(0,0);
         }
 
         return true;
