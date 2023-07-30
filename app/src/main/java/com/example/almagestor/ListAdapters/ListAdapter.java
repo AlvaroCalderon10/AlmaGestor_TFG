@@ -2,6 +2,7 @@ package com.example.almagestor.ListAdapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.example.almagestor.Products.ProductDataDTO;
 import com.example.almagestor.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Base64;
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
@@ -83,21 +85,25 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView iconImage;
-        TextView textProduct,textEan,textQuantite;
+        TextView textProduct,textEan,textPrice,textQuantite;
         FloatingActionButton btn_less, btn_plus;
         ViewHolder(View itemView){
             super(itemView);
             iconImage=itemView.findViewById(R.id.IconImageView);
             textProduct=itemView.findViewById(R.id.product_name);
             textEan=itemView.findViewById(R.id.product_ean);
+            textPrice=itemView.findViewById(R.id.product_price);
             textQuantite=itemView.findViewById(R.id.quantite);
             btn_less=itemView.findViewById(R.id.btn_minus_stock);
             btn_plus=itemView.findViewById(R.id.btn_plus_stock);
             }
         void bindData(final ProductDataDTO item){
-            //iconImage.setImageIcon();
+            if(!item.getImg().equals("1")){
+                iconImage.setImageBitmap(BitmapFactory.decodeByteArray((Base64.getDecoder().decode(item.getImg())),0,(Base64.getDecoder().decode(item.getImg()).length)));
+            }
             textProduct.setText(item.getNameProduct());
-            textEan.setText(item.getEan());
+            textPrice.setText(String.valueOf(item.getPrice())+" €");
+            textEan.setText("EAN: "+item.getEan());
             textQuantite.setText("1");
         }
     }

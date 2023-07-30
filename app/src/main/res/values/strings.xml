@@ -66,4 +66,5 @@
     <string name="FOClients">Clientes </string>
     <string name="CerrarSesion">Cerrar Sesión </string>
     <string name="Synchro">Copia Seguridad</string>
+    <string name="ProductNotFound">Código de barras no encontrado en el listado de productos</string>
 </resources>

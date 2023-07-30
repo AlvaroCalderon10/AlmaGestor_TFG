@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.almagestor.CallandMsg.MsgalertDialog;
 import com.example.almagestor.Clients.clients;
 import com.example.almagestor.DTOs.ShopDTO;
 import com.example.almagestor.Facture.FacturePDF;
@@ -276,6 +277,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             Close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    reset_ListProducts();
                     dialog.dismiss();
                     return;
                 }
@@ -283,6 +285,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             Cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    reset_ListProducts();
                     dialog.dismiss();
                     return;
                 }
@@ -290,6 +293,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             OK.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    reset_ListProducts();
                     dialog.dismiss();
                     return;
                 }
@@ -299,14 +303,22 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     }
 
     public void init(String value,double price){
-        elements.add(new ProductDataDTO("img","Producto Prueba",value,1,price));
-        update_cashMoney(price);
-        money_shop=money_shop+price;
-        ListAdapter listAdapter=new ListAdapter(elements,this,1);
-        RecyclerView recyclerView=findViewById(R.id.listRecyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(listAdapter);
+        SqliteModel obj =new SqliteModel();
+        ProductDataDTO product=obj.getProduct(SellFo.this,value);
+        if(product!=null){
+            elements.add(new ProductDataDTO(product.getImg(),product.getNameProduct(), product.getEan(), 1, product.getPrice()));
+            update_cashMoney(product.getPrice());
+            money_shop=money_shop+price;
+            ListAdapter listAdapter=new ListAdapter(elements,this,1);
+            RecyclerView recyclerView=findViewById(R.id.listRecyclerView);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(listAdapter);
+        }else{
+            //Producto no encontrado
+            MsgalertDialog alert=new MsgalertDialog();
+            alert.initDialog(SellFo.this,getResources().getString(R.string.ProductNotFound));
+        }
 
     }
     public void update_cashMoney(Double value){
@@ -390,6 +402,17 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     }
     public void setMoney_shop(Double money_shop) {
         this.money_shop = money_shop;
+    }
+
+    public void reset_ListProducts(){
+        elements=new ArrayList<>();
+        money.setText("0.00"+"€");
+        money_shop=0.00;
+        ListAdapter listAdapter=new ListAdapter(elements,this,1);
+        RecyclerView recyclerView=findViewById(R.id.listRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(listAdapter);
     }
 
     class BDThread extends Thread{

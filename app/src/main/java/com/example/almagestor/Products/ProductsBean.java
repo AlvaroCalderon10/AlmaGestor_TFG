@@ -99,7 +99,7 @@ public class ProductsBean extends AppCompatActivity {
                         ProductDataDTO dto=new ProductDataDTO();
                         dto=dto.create_validate_product(base64IMG,nameProduct.getText().toString(),barcodeProduct.getText().toString(),Integer.valueOf(stockProduct.getText().toString()),Integer.valueOf(precioProduct.getText().toString()));
                         if(dto!=null){
-                            init_img(nameProduct.getText().toString(),base64IMG);
+                            init_img(dto,base64IMG);
                             //guardar en DB
                             SqliteModel obj=new SqliteModel();
                             if(obj.insert_Product(ProductsBean.this,dto)==true){
@@ -200,8 +200,8 @@ public class ProductsBean extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(ProductsBean.this));
         recyclerView.setAdapter(listAdapterProductBean);
     }
-    public void init_img(String value, String img){
-        elements.add(new ProductDataDTO(img,value,"10",1,2));
+    public void init_img(ProductDataDTO dto,String img ){
+        elements.add(new ProductDataDTO(img,dto.getNameProduct(),dto.getEan(),dto.getUnits(),dto.getPrice()));
         ListAdapterProductBean listAdapterProductBean=new ListAdapterProductBean(elements, this,1);
         RecyclerView recyclerView=findViewById(R.id.listRecyclerView_products);
         recyclerView.setHasFixedSize(true);

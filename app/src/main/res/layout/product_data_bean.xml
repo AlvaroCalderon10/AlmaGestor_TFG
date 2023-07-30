@@ -31,17 +31,19 @@
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
                 android:src="@drawable/baseline_shopping_cart_checkout_24"/>
+
             <LinearLayout
                 android:id="@+id/linearLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="196dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="0dp"
+                android:layout_marginLeft="4dp"
                 android:layout_marginTop="2dp"
                 android:layout_toEndOf="@+id/IconImageView_productbean"
-                android:orientation="vertical"
-                android:layout_marginLeft="4dp"
-                android:layout_toRightOf="@id/IconImageView_productbean">
+                android:layout_toRightOf="@id/IconImageView_productbean"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/product_name_productbean"
                     android:layout_width="match_parent"
@@ -50,7 +52,8 @@
                     android:text="Nombre Producto"
                     android:textColor="@color/purple"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/product_ean_productbean"
                     android:layout_width="match_parent"
@@ -59,7 +62,8 @@
                     android:text="EAN:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/product_price_productbean"
                     android:layout_width="match_parent"
@@ -68,7 +72,7 @@
                     android:text="Precio:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout

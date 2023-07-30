@@ -15,6 +15,12 @@ public class ProductDataDTO {
         this.units = units;
         this.price=price;
     }
+    public ProductDataDTO(String img, String nameProduct, String ean, double price) {
+        this.img = img;
+        this.nameProduct = nameProduct;
+        this.ean = ean;
+        this.price=price;
+    }
 
     public ProductDataDTO() {
 

@@ -151,6 +151,27 @@ public class SqliteModel {
         }
         return false;
     }
+    public ProductDataDTO getProduct(Context context, String Ean){
+        ProductDataDTO data = null;
+        try{
+            SQLiteDatabase db = this.getConn(context);
+            Cursor c = db.rawQuery("SELECT img, name, ean, price  FROM product WHERE ean = ?", new String[]{Ean});
+            if (c.moveToFirst()) {
+                do {
+                    String img=c.getString(0);
+                    String name=c.getString(1);
+                    String ean =c.getString(2);
+                    Double price= c.getDouble(3);
+                    data = new ProductDataDTO(img,name,ean,price);
+                } while (c.moveToNext());
+            }
+            c.close();
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+        }
+        return data;
+    }
     public boolean delete_Product(Context context, String eanValue){
         String pdv="28999999";//coger DB
         String groupeid="10014"; //Coger DB
