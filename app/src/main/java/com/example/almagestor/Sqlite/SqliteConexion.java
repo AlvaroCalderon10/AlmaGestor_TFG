@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class SqliteConexion extends SQLiteOpenHelper {
 
     final String TBL_user="CREATE TABLE user (groupeid INTEGER, codepdv TEXT, company_name TEXT, Password TEXT)";
-    final String TBL_shop="CREATE TABLE shopinfo (groupeid INTEGER, codepdv TEXT, company_name TEXT, street TEXT, infoStreet TEXT, phone TEXT,email TEXT)";
+    final String TBL_shop="CREATE TABLE shopinfo (groupeid INTEGER, codepdv TEXT, company_name TEXT, street TEXT, infoStreet TEXT, codepostal TEXT, phone TEXT,email TEXT,nif TEXT)";
     final String TBL_clients="CREATE TABLE clientsinfo (groupeid INTEGER, name TEXT, nif TEXT, phone TEXT, streetinfo TEXT)";
     final String TBL_products="CREATE TABLE product (groupeid INTEGER, img TEXT, name TEXT, ean TEXT, stock INTEGER, price INTEGER)";
 

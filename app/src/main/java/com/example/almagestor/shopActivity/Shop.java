@@ -7,7 +7,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.almagestor.DTOs.AdressDTO;
 import com.example.almagestor.DTOs.ShopDTO;
@@ -23,19 +26,23 @@ import com.example.almagestor.DTOs.UserDTO;
 import com.example.almagestor.FO.SellFo;
 import com.example.almagestor.Login.NewUser;
 import com.example.almagestor.MainActivity;
+import com.example.almagestor.Products.ProductDataDTO;
 import com.example.almagestor.R;
 import com.example.almagestor.Sqlite.SqliteModel;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.List;
+import java.util.Objects;
+
 public class Shop extends AppCompatActivity {
     ImageView back_img;
-    TextView name_shop,pdv_shop,more_information, street_shop, info_street_shop, email_shop, phone_shop,input_data;
+    TextView name_shop,pdv_shop,more_information, street_shop, info_street_shop, email_shop, phone_shop,nif_shop,input_data;
 
     TextView pdv;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    LinearLayout email_box,phone_box;
+    LinearLayout email_box,phone_box,nif_box;
 
     Button Save,Cancel;
     ImageView Close;
@@ -44,6 +51,7 @@ public class Shop extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+        Objects.requireNonNull(getSupportActionBar()).hide();
         initViews();
         initBDdata();
 
@@ -71,6 +79,12 @@ public class Shop extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 initDialogInput(3);//For email
+            }
+        });
+        nif_box.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initDialogInput(4);//For nif
             }
         });
         more_information.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +137,8 @@ public class Shop extends AppCompatActivity {
         phone_shop=findViewById(R.id.user_phone);
         phone_box=findViewById(R.id.user_phone_box);
         email_box=findViewById(R.id.user_email_box);
+        nif_box=findViewById(R.id.user_nif_box);
+        nif_shop=findViewById(R.id.user_nif);
     }
     public void initBDdata(){
         SqliteModel obj=new SqliteModel();
@@ -134,6 +150,7 @@ public class Shop extends AppCompatActivity {
             info_street_shop.setText(dtData.getShop_info_street());
             phone_shop.setText(dtData.getPhone());
             email_shop.setText(dtData.getEmail());
+            nif_shop.setText(dtData.getNif());
         }else{
             UserDTO pdv=obj.getFromLocal(this);
             if(pdv!=null){
@@ -143,6 +160,7 @@ public class Shop extends AppCompatActivity {
                 info_street_shop.setText("");
                 phone_shop.setText("");
                 email_shop.setText("");
+                nif_shop.setText("");
             }
         }
     }
@@ -180,6 +198,9 @@ public class Shop extends AppCompatActivity {
                     } else if (value==3) {
                         email_shop.setText(input_data.getText().toString().trim());
                         obj.updatecompany_email(Shop.this,input_data.getText().toString().trim());
+                    }else if (value==4) {
+                        nif_shop.setText(input_data.getText().toString().trim());
+                        obj.updatecompany_nif(Shop.this,input_data.getText().toString().trim());
                     }
                     dialog.dismiss();
                 }
@@ -188,12 +209,43 @@ public class Shop extends AppCompatActivity {
         dialog.show();
     }
     public void update_info_adress(AdressDTO adressDTO){
+        AdressDTO insertDb=new AdressDTO();
         if(adressDTO!=null){
-            if(!adressDTO.getStreet().isEmpty()){
+            if(!adressDTO.getStreet().isEmpty()) {
+                insertDb.setStreet(adressDTO.getStreet());
                 street_shop.setText(adressDTO.getStreet());
+            }else{
+                insertDb.setStreet("");
+                street_shop.setText("");
             }
-            if (!adressDTO.getInfo_Street().isEmpty() && !adressDTO.getCodePostal().isEmpty()) {
+            if(!adressDTO.getInfo_Street().isEmpty() && !adressDTO.getCodePostal().isEmpty()) {
+                insertDb.setCodePostal(adressDTO.getCodePostal());
+                insertDb.setInfo_Street(adressDTO.getInfo_Street());
                 info_street_shop.setText(adressDTO.getInfo_Street()+"\n"+adressDTO.getCodePostal());
+            }else{
+                insertDb.setCodePostal("");
+                insertDb.setInfo_Street("");
+                info_street_shop.setText("");
+            }
+            Shop.BDThread thread=new Shop.BDThread(this,insertDb);
+            thread.start();
+        }
+    }
+    class BDThread extends Thread{
+        Context context;
+        AdressDTO dto;
+        BDThread (Context context,AdressDTO dto){
+            this.context=context;
+            this.dto=dto;
+        }
+        @Override
+        public void run(){
+            SqliteModel obj=new SqliteModel();
+
+            if(obj.updateaddres_info(context,dto)){
+                //Correcto
+            }else{
+                Toast.makeText(Shop.this,"DB incorrect update of shop", Toast.LENGTH_SHORT).show();
             }
         }
     }

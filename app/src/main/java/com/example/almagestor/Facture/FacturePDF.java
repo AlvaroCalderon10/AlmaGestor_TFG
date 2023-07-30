@@ -5,7 +5,9 @@ import android.graphics.Paint;
 import android.icu.util.Calendar;
 import android.os.Environment;
 
+import com.example.almagestor.DTOs.ShopDTO;
 import com.example.almagestor.Products.ProductDataDTO;
+import com.example.almagestor.Sqlite.SqliteModel;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.Code128Writer;
@@ -41,7 +43,7 @@ import java.util.List;
 
 public class FacturePDF {
     private static int grade=00000;
-    public File createPdf(List<ProductDataDTO> elements, Calendar date,Double money_shop) throws FileNotFoundException {
+    public File createPdf(List<ProductDataDTO> elements, Calendar date,Double money_shop,ShopDTO shopDTO) throws FileNotFoundException {
         String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
         String namePDF="Factura_Nº:"+grade+".pdf";
         File myFile= new File(pdfPath,namePDF);
@@ -53,10 +55,9 @@ public class FacturePDF {
         pdfDocument.setDefaultPageSize(PageSize.A6);
         document.setMargins(0,0,0,0);
 
-
-        Paragraph title=new Paragraph("Nombre tienda").setBold().setFontSize(15).setTextAlignment(TextAlignment.CENTER);
-        Paragraph adress=new Paragraph("Avenida de prueba Nº89 S/N").setFontSize(10).setTextAlignment(TextAlignment.CENTER);
-        Paragraph nif=new Paragraph("NIF:585698985668").setFontSize(10).setTextAlignment(TextAlignment.CENTER);
+        Paragraph title=new Paragraph(shopDTO.getShop_name()).setBold().setFontSize(15).setTextAlignment(TextAlignment.CENTER);
+        Paragraph adress=new Paragraph(shopDTO.getShop_street() +","+ shopDTO.getShop_info_street() +","+  shopDTO.getCodepostal()).setFontSize(10).setTextAlignment(TextAlignment.CENTER);
+        Paragraph nif=new Paragraph(shopDTO.getNif()).setFontSize(10).setTextAlignment(TextAlignment.CENTER);
         Paragraph separator=new Paragraph("------------------------------------------------------").setFontSize(10).setTextAlignment(TextAlignment.CENTER);
         SimpleDateFormat format=new SimpleDateFormat("dd/MM/yyyy");
 

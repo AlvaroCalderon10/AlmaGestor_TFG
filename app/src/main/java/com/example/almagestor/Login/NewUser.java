@@ -17,6 +17,8 @@ import com.example.almagestor.Sqlite.SqliteModel;
 import com.example.almagestor.Validation.Encryption;
 import com.example.almagestor.Validation.ValidateClases;
 
+import java.util.Objects;
+
 public class NewUser extends AppCompatActivity {
     EditText codePDV;
     EditText password;
@@ -30,6 +32,7 @@ public class NewUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SqliteModel DB_local=new SqliteModel();
         setContentView(R.layout.activity_new_user);
+        Objects.requireNonNull(getSupportActionBar()).hide();
         codePDV = findViewById(R.id.codePDV);
         password = findViewById(R.id.password);
         shopName=findViewById(R.id.companyName);

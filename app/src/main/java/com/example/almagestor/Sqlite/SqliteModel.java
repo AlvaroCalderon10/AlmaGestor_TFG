@@ -9,6 +9,7 @@ import android.icu.util.Calendar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.almagestor.DTOs.AdressDTO;
 import com.example.almagestor.DTOs.ClientDTO;
 import com.example.almagestor.DTOs.ShopDTO;
 import com.example.almagestor.DTOs.UserDTO;
@@ -284,16 +285,18 @@ public class SqliteModel {
         String groupeid="10014";
         try{
             SQLiteDatabase db = this.getConn(context);
-            Cursor c = db.rawQuery("SELECT codepdv,company_name, street, infoStreet, phone,email  FROM shopinfo WHERE groupeid = ?", new String[]{groupeid});
+            Cursor c = db.rawQuery("SELECT codepdv,company_name, street, infoStreet,codepostal, phone,email,nif  FROM shopinfo WHERE groupeid = ?", new String[]{groupeid});
             if (c.moveToFirst()) {
                 do {
                     String pdv=c.getString(0);
                     String company_name=c.getString(1);
                     String street =c.getString(2);
                     String infoStreet= c.getString(3);
-                    String phone=c.getString(4);
-                    String email=c.getString(5);
-                    data = new ShopDTO(company_name,pdv,street,infoStreet,phone,email);
+                    String codepostal= c.getString(4);
+                    String phone=c.getString(5);
+                    String email=c.getString(6);
+                    String nif =c.getString(7);
+                    data = new ShopDTO(company_name,pdv,street,infoStreet,codepostal,phone,email,nif);
                 } while (c.moveToNext());
             }
             c.close();
@@ -308,6 +311,24 @@ public class SqliteModel {
         String groupeid="10014"; //Coger DB
         ContentValues values=new ContentValues();
         values.put("company_name",value);
+        try{
+            SQLiteDatabase db =this.getConn(context);
+            db.update("shopinfo",values,"groupeid= ?",new String[]{groupeid});
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    public boolean updateaddres_info(Context context, AdressDTO value){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        ContentValues values=new ContentValues();
+        // street TEXT, infoStreet TEXT, phone TEXT,email TEXT,nif TEXT
+        values.put("street",value.getStreet());
+        values.put("infoStreet", value.getInfo_Street());
+        values.put("codepostal",value.getCodePostal());
         try{
             SQLiteDatabase db =this.getConn(context);
             db.update("shopinfo",values,"groupeid= ?",new String[]{groupeid});
@@ -338,6 +359,21 @@ public class SqliteModel {
         String groupeid="10014"; //Coger DB
         ContentValues values=new ContentValues();
         values.put("phone",value);
+        try{
+            SQLiteDatabase db =this.getConn(context);
+            db.update("shopinfo",values,"groupeid= ?",new String[]{groupeid});
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    public boolean updatecompany_nif(Context context,String value){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        ContentValues values=new ContentValues();
+        values.put("nif",value);
         try{
             SQLiteDatabase db =this.getConn(context);
             db.update("shopinfo",values,"groupeid= ?",new String[]{groupeid});

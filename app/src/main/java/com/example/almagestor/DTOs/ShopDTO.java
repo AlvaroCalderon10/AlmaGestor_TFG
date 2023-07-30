@@ -5,16 +5,20 @@ public class ShopDTO {
     String shop_pdv;
     String shop_street;
     String shop_info_street;
+    String codepostal;
     String phone;
     String email;
+    String nif;
 
-    public ShopDTO(String shop_name, String shop_pdv, String shop_street, String shop_info_street, String phone, String email) {
+    public ShopDTO(String shop_name, String shop_pdv, String shop_street, String shop_info_street,String codepostal, String phone, String email,String nif) {
         this.shop_name = shop_name;
         this.shop_pdv = "PDV: "+shop_pdv;
         this.shop_street = shop_street;
         this.shop_info_street = shop_info_street;
         this.phone = phone;
+        this.codepostal=codepostal;
         this.email = email;
+        this.nif=nif;
     }
 
     public String getShop_name() {
@@ -49,6 +53,14 @@ public class ShopDTO {
         this.shop_info_street = shop_info_street;
     }
 
+    public String getCodepostal() {
+        return codepostal;
+    }
+
+    public void setCodepostal(String codepostal) {
+        this.codepostal = codepostal;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -64,4 +76,13 @@ public class ShopDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
+    }
+
 }

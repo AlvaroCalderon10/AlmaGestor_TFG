@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 public class ForgotPassword extends AppCompatActivity {
 
     EditText emailEditText;
@@ -31,6 +33,7 @@ public class ForgotPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SqliteModel DB_local=new SqliteModel();
         setContentView(R.layout.activity_forgot_password);
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         //emailEditText = findViewById(R.id.email);
         password=findViewById(R.id.password);

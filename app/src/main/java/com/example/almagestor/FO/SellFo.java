@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.almagestor.Clients.clients;
+import com.example.almagestor.DTOs.ShopDTO;
 import com.example.almagestor.Facture.FacturePDF;
 import com.example.almagestor.GoogleDrive.GoogleDriveActivity;
 import com.example.almagestor.ListAdapters.ListAdapter;
@@ -230,14 +231,21 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         }
         FacturePDF objFacture= new FacturePDF();
         try{
-            Calendar calendar= Calendar.getInstance();
-            File file_pdf=objFacture.createPdf(elements,calendar,this.money_shop);
-            //Thread works on inputs while execution doesnt stops.
-            BDThread thread=new BDThread(this,money_shop,calendar, file_pdf.toString(),elements);
-            thread.start();
-            if(file_pdf!=null){
-                showPDF(file_pdf);
+            SqliteModel obj=new SqliteModel();
+            ShopDTO shopDT = obj.getShopdata(SellFo.this,"10014");
+            if(shopDT!=null){
+                Calendar calendar= Calendar.getInstance();
+                File file_pdf=objFacture.createPdf(elements,calendar,this.money_shop,shopDT);
+                //Thread works on inputs while execution doesnt stops.
+                BDThread thread=new BDThread(this,money_shop,calendar, file_pdf.toString(),elements);
+                thread.start();
+                if(file_pdf!=null){
+                    showPDF(file_pdf);
+                }
+            }else{
+                //Shopdt vacios
             }
+
         }catch (Exception e){
             e.printStackTrace();
         }

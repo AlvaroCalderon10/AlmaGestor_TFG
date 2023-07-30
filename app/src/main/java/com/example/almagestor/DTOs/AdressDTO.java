@@ -4,6 +4,8 @@ public class AdressDTO {
     String Street;
     String info_Street;
     String codePostal;
+    public AdressDTO() {
+    }
 
     public AdressDTO(String street, String info_Street, String codePostal) {
         Street = street;
