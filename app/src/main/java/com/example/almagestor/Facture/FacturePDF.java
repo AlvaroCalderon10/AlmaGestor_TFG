@@ -46,6 +46,7 @@ public class FacturePDF {
     public File createPdf(List<ProductDataDTO> elements, Calendar date,Double money_shop,ShopDTO shopDTO) throws FileNotFoundException {
         String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
         String namePDF="Factura_Nº:"+grade+".pdf";
+        grade++;
         File myFile= new File(pdfPath,namePDF);
         OutputStream outputStream = new FileOutputStream(myFile);
 
