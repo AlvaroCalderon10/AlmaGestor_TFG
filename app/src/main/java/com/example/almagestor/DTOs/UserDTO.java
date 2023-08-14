@@ -46,7 +46,12 @@ public class UserDTO {
     public void setCompany_name(String company_name) {
         this.company_name = company_name;
     }
-
+    public boolean isEmpty(){
+        if(getCodePDV()==""&&getCompany_name()==""&& getGroupeid()==""&& getPassword()==""){
+            return true;
+        }
+        return false;
+    }
 
 
 }

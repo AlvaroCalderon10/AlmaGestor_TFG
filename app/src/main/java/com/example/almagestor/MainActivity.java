@@ -48,14 +48,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Encryption encrypt=new Encryption();
                 try {
-                    if (username.getText().toString().equals(user_data.getCodePDV()) && user_data.getPassword().equals(encrypt.EncryptString(password.getText().toString(),user_data.getCodePDV()))) {
-                        Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                        //INTENT A menú principal
-                        Intent intent =new Intent(MainActivity.this, SellFo.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                    if(user_data!=null){
+                        if (username.getText().toString().equals(user_data.getCodePDV()) && user_data.getPassword().equals(encrypt.EncryptString(password.getText().toString(),user_data.getCodePDV()))) {
+                            Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                            //INTENT A menú principal
+                            Intent intent =new Intent(MainActivity.this, SellFo.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(MainActivity.this, "Login Failed!, NON DATA", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     throw new RuntimeException(e);

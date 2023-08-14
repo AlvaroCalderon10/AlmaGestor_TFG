@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- permissions statemens for remote db connection -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -22,6 +23,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AlmaGestor"
         tools:targetApi="31">
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
+
         <activity
             android:name=".GoogleDrive.GoogleDriveActivity"
             android:exported="false" />

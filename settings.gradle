@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AlmaGestor"
 include ':app'
+include ':app:benchmark'
