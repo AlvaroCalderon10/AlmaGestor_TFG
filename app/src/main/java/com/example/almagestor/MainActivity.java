@@ -6,6 +6,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import com.example.almagestor.Validation.Encryption;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MAINActivity";
     EditText username;
     EditText password;
     Button loginButton;
@@ -51,15 +53,18 @@ public class MainActivity extends AppCompatActivity {
                     if(user_data!=null){
                         if (username.getText().toString().equals(user_data.getCodePDV()) && user_data.getPassword().equals(encrypt.EncryptString(password.getText().toString(),user_data.getCodePDV()))) {
                             Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                            Log.i(TAG,"Login Successful!");
                             //INTENT A menú principal
                             Intent intent =new Intent(MainActivity.this, SellFo.class);
                             startActivity(intent);
                             finish();
                         } else {
                             Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                            Log.w(TAG,"Login Failed!");
                         }
                     }else{
                         Toast.makeText(MainActivity.this, "Login Failed!, NON DATA", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG,"Login Failed!");
                     }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
