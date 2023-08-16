@@ -82,4 +82,7 @@ public class ProductDataDTO {
         }
         return dto;
     }
+    public String print_Product(){
+        return "Name:" +this.getNameProduct()+"Price: "+this.getPrice()+"EAN:"+this.getEan();
+    }
 }

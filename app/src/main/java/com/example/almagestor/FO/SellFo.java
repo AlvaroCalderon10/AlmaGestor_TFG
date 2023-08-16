@@ -21,6 +21,7 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     private static final int STORAGE_PERMISSION_REQUEST_CODE=9;
     private static final int GET_ACOUNTS_PERMISSION_REQUEST_CODE=8;
     private static final int READ_STORAGE_PERMISSION_REQUEST_CODE=7;
+    private static final String TAG = "SellFO";
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -145,7 +147,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 screen.setVisibility(View.GONE);
                 return;
             } else if (button.getTag().toString().equals("1")) {
-                init(screen.getText().toString(),10.00);
+                init(screen.getText().toString());
                 screen.setVisibility(View.GONE);
                 textOnscreen="";
                 screen.setText(textOnscreen.trim());
@@ -154,6 +156,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 scanCode(); //Scan Scan
                 return;
             }else if(button.getTag().toString().equals("2")) {//Finish
+                Log.i(TAG,"Finish buy go to payment");
                 //Forma de pago
                 init_paiment();
             }
@@ -302,13 +305,14 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             dialog.show();
     }
 
-    public void init(String value,double price){
+    public void init(String value){
         SqliteModel obj =new SqliteModel();
         ProductDataDTO product=obj.getProduct(SellFo.this,value);
         if(product!=null){
+            Log.i(TAG,product.print_Product());
             elements.add(new ProductDataDTO(product.getImg(),product.getNameProduct(), product.getEan(), 1, product.getPrice()));
             update_cashMoney(product.getPrice());
-            money_shop=money_shop+price;
+            money_shop=money_shop+product.getPrice();
             ListAdapter listAdapter=new ListAdapter(elements,this,1);
             RecyclerView recyclerView=findViewById(R.id.listRecyclerView);
             recyclerView.setHasFixedSize(true);
@@ -316,6 +320,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             recyclerView.setAdapter(listAdapter);
         }else{
             //Producto no encontrado
+            Log.w(TAG,"Product not found");
             MsgalertDialog alert=new MsgalertDialog();
             alert.initDialog(SellFo.this,getResources().getString(R.string.ProductNotFound));
         }
@@ -323,8 +328,10 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     }
     public void update_cashMoney(Double value){
         money.setText(String.valueOf(money_shop+value)+"€");
+        Log.i(TAG,"Updated money shop"+money.toString());
     }
     private void scanCode() {
+        Log.i(TAG,"Scan on FO sell");
         ScanOptions options = new ScanOptions();
         options.setPrompt("Volume up to flash on");
         options.setBeepEnabled(true);
@@ -341,7 +348,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             builder.setMessage(result.getContents());
             if(!result.getContents().isEmpty()){
                 barCode =result.getContents().toString().trim();
-                init(barCode,10.00);
+                init(barCode);
             }
         }
     });
@@ -366,22 +373,26 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             case R.id.nav_sell:
                 break;
             case R.id.nav_tienda:
+                Log.i(TAG,"TIENDA NAV");
                 Intent intent = new Intent(SellFo.this, Shop.class);
                 startActivity(intent);
                 overridePendingTransition(0,0);
                 break;
             case R.id.nav_clientes:
+                Log.i(TAG,"Clientes NAV");
                 Toast.makeText(this,"Clientes", Toast.LENGTH_SHORT).show();
                 Intent intent3=new Intent(SellFo.this, clients.class);
                 startActivity(intent3);
                 overridePendingTransition(0,0);
                 break;
             case R.id.nav_producto:
+                Log.i(TAG,"Productos NAV");
                 Intent intent2 = new Intent(SellFo.this, ProductsBean.class);
                 startActivity(intent2);
                 overridePendingTransition(0,0);
                 break;
             case R.id.nav_bdExport_tienda:
+                Log.i(TAG,"BDExport NAV");
                 if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
                     //Generar factura simple compra continue
                 }else{
@@ -405,6 +416,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     }
 
     public void reset_ListProducts(){
+        Log.i(TAG,"Restart list elements");
         elements=new ArrayList<>();
         money.setText("0.00"+"€");
         money_shop=0.00;
