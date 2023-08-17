@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class clients extends AppCompatActivity {
+    private static final String TAG = "Clients";
     private static final int PHONE_PERMISSION_REQUEST_CODE =100;
     List<ClientDTO> elementsLocal=new ArrayList<>();
     List<ClientDTO> elementsSearch=new ArrayList<>();
@@ -81,6 +83,7 @@ public class clients extends AppCompatActivity {
                             //Insert on DB
                             insert_client(clientDTO);
                             //List on ListElement
+                            Log.i(TAG,"InsertedClient");
                             init_list();
                             dialog.dismiss();
                         }
@@ -92,6 +95,7 @@ public class clients extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i(TAG,"Searching");
                 String data=inputdata.getText().toString().trim();
                 if(!data.isEmpty()){
                     SqliteModel obj=new SqliteModel();
@@ -107,6 +111,7 @@ public class clients extends AppCompatActivity {
     }
 
     private void insert_client(ClientDTO clientDTO) {
+        Log.i(TAG,"InsertClient");
         SqliteModel obj=new SqliteModel();
         obj.insert_client(clients.this,clientDTO);
     }
@@ -155,6 +160,7 @@ public class clients extends AppCompatActivity {
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 return;
             } else{
+                Log.e(TAG,"Unable to invoke Send mesagges without permision");
                 Toast.makeText(this, "Unable to invoke Send mesagges without permision", Toast.LENGTH_SHORT).show();
             }
         }

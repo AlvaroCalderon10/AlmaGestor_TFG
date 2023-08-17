@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import com.example.almagestor.Validation.ValidateClases;
 import java.util.Objects;
 
 public class NewUser extends AppCompatActivity {
+    private static final String TAG = "NewUser";
     EditText codePDV;
     EditText password;
     EditText shopName;
@@ -61,6 +63,7 @@ public class NewUser extends AppCompatActivity {
                     }
                     user.setPassword(password_Encrypted);
                     if(obj.insert_user(NewUser.this,user)){
+                        Log.i(TAG,"User Inserted on BD");
                         Intent intent = new Intent(NewUser.this, MainActivity.class);
                         startActivity(intent);
                         finish();
