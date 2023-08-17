@@ -4,7 +4,6 @@
     <string name="Username">Usuario</string>
     <string name="PDV">Usuario (Código PDV)</string>
     <string name="Password">Contraseña</string>
-    <string name="UsuarioNuevo">¿Primer inicio de sesión?, Empieza ahora</string>
     <string name="Register">Registro</string>
     <string name="Welcome">¡Bienvenido!</string>
     <string name="storeName">Nombre Tienda</string>
@@ -29,8 +28,8 @@
     <string name="Facturas">Facturas</string>
     <string name="Registrar_factura">Registrar Factura</string>
     <string name="Tienda">Tienda</string>
-    <string name="OpenNavigation">OpenNav</string>
-    <string name="CloseNavigation">CloseNav</string>
+    <string name="OpenNavigation" translatable="false">OpenNav</string>
+    <string name="CloseNavigation" translatable="false">CloseNav</string>
     <string name="Mi">Mi</string>
     <string name="Perfil">Perfil</string>
     <string name="Email">Email</string>
@@ -46,8 +45,8 @@
     <string name="info_product">Producto: </string>
     <string name="info_product_name">Nombre Producto</string>
     <string name="info_product_price">Precio: </string>
-    <string name="info_product_barcode">Barcode</string>
-    <string name="info_product_Stock">Stock: </string>
+    <string name="info_product_barcode" translatable="false">Barcode</string>
+    <string name="info_product_Stock" translatable="false">Stock: </string>
     <string name="miss_name_ean">Falta nombre o ean de producto </string>
     <string name="saveCorrect">Guardado </string>
     <string name="AddClientHeader">Creación de Clientes</string>
@@ -67,4 +66,5 @@
     <string name="CerrarSesion">Cerrar Sesión </string>
     <string name="Synchro">Copia Seguridad</string>
     <string name="ProductNotFound">Código de barras no encontrado en el listado de productos</string>
+    <string name="UsuarioNuevo">¿Primer inicio de sesión?, Empieza ahora</string>
 </resources>
