@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.almagestor.FO.SellFo;
 import com.example.almagestor.Products.ProductDataDTO;
 import com.example.almagestor.R;
+import com.example.almagestor.Sqlite.SqliteModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Base64;
@@ -79,6 +81,20 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     }
                 }
             });
+        holder.btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String ean=holder.textEan.getText().toString();
+                ean=ean.replace("EAN: ","");
+                mData.remove(holder.getAdapterPosition());
+                notifyItemRemoved(holder.getAdapterPosition());
+                SqliteModel obj=new SqliteModel();
+                if(obj.delete_Product(context,ean)){
+                    Toast.makeText(context, context.getResources().getString(R.string.ProductoBorrado2), Toast.LENGTH_SHORT).show();
+                };
+            }
+        });
         }
 
     public void setItems(List<ProductDataDTO> items){mData=items;}
@@ -86,7 +102,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView iconImage;
         TextView textProduct,textEan,textPrice,textQuantite;
-        FloatingActionButton btn_less, btn_plus;
+        FloatingActionButton btn_less, btn_plus,btn_delete;
         ViewHolder(View itemView){
             super(itemView);
             iconImage=itemView.findViewById(R.id.IconImageView);
@@ -96,6 +112,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             textQuantite=itemView.findViewById(R.id.quantite);
             btn_less=itemView.findViewById(R.id.btn_minus_stock);
             btn_plus=itemView.findViewById(R.id.btn_plus_stock);
+            btn_delete=itemView.findViewById(R.id.btn_delete_sellFo);
             }
         void bindData(final ProductDataDTO item){
             if(!item.getImg().equals("1")){

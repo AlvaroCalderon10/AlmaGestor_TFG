@@ -495,6 +495,36 @@ public class SqliteModel {
         }
         return arrayList;
     }
+    public boolean updateStock(Context context,String ean,int units,String name){
+        String pdv="28999999";//coger DB
+        String groupeid="10014"; //Coger DB
+        int stockSelect=0;
+        try{
+            SQLiteDatabase db = this.getConn(context);
+            Cursor c = db.rawQuery("SELECT stock FROM product WHERE ean like ? and groupeid = ?", new String[]{ean,groupeid});
+            if (c.moveToFirst()) {
+                do {
+                    stockSelect=c.getInt(0);
+                } while (c.moveToNext());
+            }
+            c.close();
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+            return false;
+        }
+        ContentValues values=new ContentValues();
+        values.put("stock",stockSelect-units);
+        try{
+            SQLiteDatabase db =this.getConn(context);
+            db.update("product",values,"ean= ? and name = ?",new String[]{ean,name});
+            db.close();
+        }catch (SQLException e){
+            Log.e(TAG,"Failure on DB-ACCESS: "+e.getMessage());
+            return false;
+        }
+        return true;
+    }
 
 
 }

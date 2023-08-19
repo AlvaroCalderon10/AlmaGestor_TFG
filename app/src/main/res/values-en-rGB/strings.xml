@@ -64,4 +64,5 @@
     <string name="forgotPassword">Forgot password?</string>
     <string name="password2">insert it again</string>
     <string name="Venta">Sale</string>
+    <string name="ProductoBorrado2">Product successfully deleted from shopping cart</string>
 </resources>

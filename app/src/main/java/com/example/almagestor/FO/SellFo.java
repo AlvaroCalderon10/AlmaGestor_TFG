@@ -41,6 +41,8 @@ import com.example.almagestor.Products.ProductDataDTO;
 import com.example.almagestor.Products.ProductsBean;
 import com.example.almagestor.R;
 import com.example.almagestor.Sqlite.SqliteModel;
+import com.example.almagestor.Threads.BDThread;
+import com.example.almagestor.Threads.StockThread;
 import com.example.almagestor.shopActivity.Shop;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
@@ -239,6 +241,9 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
             ShopDTO shopDT = obj.getShopdata(SellFo.this,"10014");
             if(shopDT!=null){
                 Calendar calendar= Calendar.getInstance();
+                //Stock Thread update
+                StockThread thread1=new StockThread(this,elements);
+                thread1.run();
                 File file_pdf=objFacture.createPdf(elements,calendar,this.money_shop,shopDT);
                 //Thread works on inputs while execution doesnt stops.
                 BDThread thread=new BDThread(this,money_shop,calendar, file_pdf.toString(),elements);
@@ -427,34 +432,6 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         recyclerView.setAdapter(listAdapter);
     }
 
-    class BDThread extends Thread{
-        Context context;
-        Double money;
-        Calendar calendar;
-        String file;
-        List<ProductDataDTO> products;
-        long id_fk;
-        BDThread (Context context,Double money,Calendar calendar,String file, List<ProductDataDTO> products){
-            this.context=context;
-            this.money=money;
-            this.calendar=calendar;
-            this.file=file;
-            this.products=products;
-        }
-        @Override
-        public void run(){
-            SqliteModel obj=new SqliteModel();
-            id_fk= obj.insert_logVente(context,money.toString(),calendar,file);
-            if(id_fk!=-1){
-                Boolean Bd_insert=obj.insert_logVenteProducts(context,products,id_fk);
-                if(Bd_insert==false){
-                    Toast.makeText(SellFo.this,"DB incorrect insert on products", Toast.LENGTH_SHORT).show();
-                }
-            }else{
-                Toast.makeText(SellFo.this,"DB incorrect id on logvente", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
     private TextWatcher onTextChangedListener() {
         return new TextWatcher() {
             @Override

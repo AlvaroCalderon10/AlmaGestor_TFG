@@ -118,7 +118,7 @@
                     android:backgroundTint="@color/white"
                     android:background="@color/purple"/>
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btn_delete"
+                    android:id="@+id/btn_delete_sellFo"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_toEndOf="@+id/btn_plus_stock"
