@@ -67,15 +67,7 @@ public class ListAdapterProductBean extends RecyclerView.Adapter<ListAdapterProd
         holder.Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String ean=holder.textEan.getText().toString();
-                ean=ean.replace("EAN: ","");
-                mData.remove(holder.getAdapterPosition());
-                notifyItemRemoved(holder.getAdapterPosition());
-                SqliteModel obj=new SqliteModel();
-                if(obj.delete_Product(context,ean)){
-                    Toast.makeText(context, context.getResources().getString(R.string.ProductoBorrado), Toast.LENGTH_SHORT).show();
-                };
+                deleteProduct(holder);
             }
         });
     }
@@ -140,6 +132,42 @@ public class ListAdapterProductBean extends RecyclerView.Adapter<ListAdapterProd
                     }
 
                     dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    public void deleteProduct(ViewHolder holder){
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.are_you_sure_dialog);
+        Save=dialog.findViewById(R.id.btn_yes_areyouSure);
+        Cancel=dialog.findViewById(R.id.btn_no_areyouSure);
+        Close=dialog.findViewById(R.id.btn_close_areyousure);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.border_output_box);
+        Close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String ean=holder.textEan.getText().toString();
+                ean=ean.replace("EAN: ","");
+                mData.remove(holder.getAdapterPosition());
+                notifyItemRemoved(holder.getAdapterPosition());
+                SqliteModel obj=new SqliteModel();
+                if(obj.delete_Product(context,ean)){
+                    Toast.makeText(context, context.getResources().getString(R.string.ProductoBorrado), Toast.LENGTH_SHORT).show();
+                };
+
+                dialog.dismiss();
             }
         });
         dialog.show();

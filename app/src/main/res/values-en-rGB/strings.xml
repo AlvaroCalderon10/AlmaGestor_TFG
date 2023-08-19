@@ -66,4 +66,7 @@
     <string name="Venta">Sale</string>
     <string name="ProductoBorrado2">Product successfully deleted from shopping cart</string>
     <string name="info_UPDATEproduct">Stock Update:</string>
+    <string name="areyouSure">Are you sure to delete this product?</string>
+    <string name="Si">Yes</string>
+    <string name="No">No</string>
 </resources>

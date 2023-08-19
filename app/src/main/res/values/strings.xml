@@ -69,4 +69,8 @@
     <string name="Synchro">Copia Seguridad</string>
     <string name="ProductNotFound">Código de barras no encontrado en el listado de productos</string>
     <string name="UsuarioNuevo">¿Primer inicio de sesión?, Empieza ahora</string>
+    <string name="areyouSure">¿Estás seguro de borrar este producto?</string>
+    <string name="No">No</string>
+    <string name="Si">Si</string>
+
 </resources>
