@@ -43,6 +43,7 @@
     <string name="Save">Guardar</string>
     <string name="Cancel">Cancelar</string>
     <string name="info_product">Producto: </string>
+    <string name="info_UPDATEproduct">Modificación Stock: </string>
     <string name="info_product_name">Nombre Producto</string>
     <string name="info_product_price">Precio: </string>
     <string name="info_product_barcode" translatable="false">Barcode</string>

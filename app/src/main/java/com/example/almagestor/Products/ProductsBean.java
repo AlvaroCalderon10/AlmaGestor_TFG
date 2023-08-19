@@ -18,6 +18,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ import java.util.Base64;
 import java.util.List;
 
 public class ProductsBean extends AppCompatActivity {
+    private static final String TAG = "ProductDataBean";
     private static final int IMAGE_PERMISSION_REQUEST_CODE=10;
     List<ProductDataDTO> elements=new ArrayList<>();
     String barCode;
@@ -126,6 +128,7 @@ public class ProductsBean extends AppCompatActivity {
                 dialog.show();
             }
         }));
+
     }
     @Override
     public void onRequestPermissionsResult(int requestcode, String[] permissions, int[] grantResults){
@@ -195,7 +198,7 @@ public class ProductsBean extends AppCompatActivity {
     public void init(String value){
         elements.add(new ProductDataDTO("img",value,"10",1,2));
         ListAdapterProductBean listAdapterProductBean=new ListAdapterProductBean(elements, this,1);
-        RecyclerView recyclerView=findViewById(R.id.listRecyclerView_products);
+        recyclerView=findViewById(R.id.listRecyclerView_products);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(ProductsBean.this));
         recyclerView.setAdapter(listAdapterProductBean);
@@ -203,7 +206,7 @@ public class ProductsBean extends AppCompatActivity {
     public void init_img(ProductDataDTO dto,String img ){
         elements.add(new ProductDataDTO(img,dto.getNameProduct(),dto.getEan(),dto.getUnits(),dto.getPrice()));
         ListAdapterProductBean listAdapterProductBean=new ListAdapterProductBean(elements, this,1);
-        RecyclerView recyclerView=findViewById(R.id.listRecyclerView_products);
+        recyclerView=findViewById(R.id.listRecyclerView_products);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(ProductsBean.this));
         recyclerView.setAdapter(listAdapterProductBean);
@@ -215,10 +218,18 @@ public class ProductsBean extends AppCompatActivity {
             elements.add(new ProductDataDTO(e.getImg(),e.getNameProduct(),e.getEan(),e.getUnits(),e.getPrice()));
         }
         ListAdapterProductBean listAdapterProductBean=new ListAdapterProductBean(elements, this,1);
-        RecyclerView recyclerView=findViewById(R.id.listRecyclerView_products);
+        recyclerView=findViewById(R.id.listRecyclerView_products);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(ProductsBean.this));
         recyclerView.setAdapter(listAdapterProductBean);
+    }
+    public void updateStockItem(ProductDataDTO product, int quantite){
+        Log.i(TAG,product.print_Product());
+        elements.forEach( e ->{
+            if(e.getNameProduct().equals(product.getNameProduct()) && e.getEan().equals(product.getEan())){
+                e.setUnits(quantite);
+            }
+        });
     }
     @Override
     public void onBackPressed() {

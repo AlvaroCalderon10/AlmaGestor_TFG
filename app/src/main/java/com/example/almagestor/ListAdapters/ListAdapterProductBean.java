@@ -1,20 +1,29 @@
 package com.example.almagestor.ListAdapters;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.almagestor.DTOs.ClientDTO;
 import com.example.almagestor.Products.ProductDataDTO;
+import com.example.almagestor.Products.ProductsBean;
 import com.example.almagestor.R;
 import com.example.almagestor.Sqlite.SqliteModel;
+import com.example.almagestor.Threads.InsertStockThread;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
@@ -26,6 +35,10 @@ public class ListAdapterProductBean extends RecyclerView.Adapter<ListAdapterProd
     final LayoutInflater mInflater;
     final Context context;
     int line;
+
+    EditText stockInput;
+    Button Save,Cancel;
+    ImageView Close;
     public ListAdapterProductBean(List<ProductDataDTO> itemList, Context context, int line){
         this.mInflater=LayoutInflater.from(context);
         this.context=context;
@@ -43,9 +56,14 @@ public class ListAdapterProductBean extends RecyclerView.Adapter<ListAdapterProd
     }
 
     @Override
-    public void onBindViewHolder(final ListAdapterProductBean.ViewHolder holder, final int position){
+    public void onBindViewHolder(final ViewHolder holder, final int position){
         holder.bindData(mData.get(position));
-
+        holder.box.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modifiedStockDialog(holder);
+            }
+        });
         holder.Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +86,7 @@ public class ListAdapterProductBean extends RecyclerView.Adapter<ListAdapterProd
         ImageView iconImage;
         TextView textProduct,textEan,textQuantite, textPrice;
         FloatingActionButton Delete;
+        LinearLayout box;
 
         ViewHolder(View itemView){
             super(itemView);
@@ -77,6 +96,7 @@ public class ListAdapterProductBean extends RecyclerView.Adapter<ListAdapterProd
             textQuantite=itemView.findViewById(R.id.quantite_productbean);
             textPrice=itemView.findViewById(R.id.product_price_productbean);
             Delete=itemView.findViewById(R.id.btn_delete_productbean);
+            box=itemView.findViewById(R.id.LinearLayout_productDataBean);
         }
         void bindData(final ProductDataDTO item){
             if(!item.getImg().equals("1")){
@@ -87,5 +107,41 @@ public class ListAdapterProductBean extends RecyclerView.Adapter<ListAdapterProd
             textQuantite.setText(String.valueOf(item.getUnits()));
             textPrice.setText(context.getResources().getString(R.string.info_product_price)+String.valueOf(item.getPrice()));
         }
+    }
+    public void modifiedStockDialog(ViewHolder holder){
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.add_stock_product_lay);
+        Save=dialog.findViewById(R.id.btn_yes_lay_UPDATESTOCK);
+        Cancel=dialog.findViewById(R.id.btn_no_lay_UPDATESTOCK);
+        Close=dialog.findViewById(R.id.btn_close_UPDATESTOCK);
+        stockInput=dialog.findViewById(R.id.editext_stock_UPDATESTOCK);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.border_output_box);
+        Close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    if(Integer.valueOf(stockInput.getText().toString())!=mData.get(holder.getAdapterPosition()).getUnits()){
+                        holder.textQuantite.setText(stockInput.getText().toString());
+                        ((ProductsBean) context).updateStockItem(mData.get(holder.getAdapterPosition()),Integer.valueOf(stockInput.getText().toString()));
+                        //Lanzar hilo en BD
+                        InsertStockThread thread=new InsertStockThread(context,mData.get(holder.getAdapterPosition()),Integer.valueOf(stockInput.getText().toString()));
+                        thread.run();
+                    }
+
+                    dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

@@ -24,7 +24,7 @@ public class StockThread extends Thread{
         Boolean results;
         for(int i=0;i<elements.size();i++){
             try{
-                results=obj.updateStock(context,elements.get(i).getEan(),elements.get(i).getUnits(),elements.get(i).getNameProduct());
+                results=obj.updateStockBuy(context,elements.get(i).getEan(),elements.get(i).getUnits(),elements.get(i).getNameProduct());
                 if(results==false){
                     Log.w(TAG,elements.get(i).getNameProduct() +" No ha sido actualizado su Stock");
                 }else{

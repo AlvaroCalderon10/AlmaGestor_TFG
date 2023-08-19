@@ -65,4 +65,5 @@
     <string name="password2">insert it again</string>
     <string name="Venta">Sale</string>
     <string name="ProductoBorrado2">Product successfully deleted from shopping cart</string>
+    <string name="info_UPDATEproduct">Stock Update:</string>
 </resources>
