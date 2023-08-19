@@ -85,14 +85,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
 
-                String ean=holder.textEan.getText().toString();
-                ean=ean.replace("EAN: ","");
                 mData.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
-                SqliteModel obj=new SqliteModel();
-                if(obj.delete_Product(context,ean)){
-                    Toast.makeText(context, context.getResources().getString(R.string.ProductoBorrado2), Toast.LENGTH_SHORT).show();
-                };
             }
         });
         }
