@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
@@ -55,6 +54,7 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SellFo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final int STORAGE_PERMISSION_REQUEST_CODE=9;
@@ -334,6 +334,14 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
     public void update_cashMoney(Double value){
         money.setText(String.valueOf(money_shop+value)+"€");
         Log.i(TAG,"Updated money shop"+money.toString());
+    }
+    public void update_quantite(ProductDataDTO product, int quantite){
+        Log.i(TAG,product.print_Product());
+        elements.forEach( e ->{
+            if(e.getNameProduct().equals(product.getNameProduct()) && e.getEan().equals(product.getEan())){
+                e.setUnits(quantite);
+            }
+        });
     }
     private void scanCode() {
         Log.i(TAG,"Scan on FO sell");

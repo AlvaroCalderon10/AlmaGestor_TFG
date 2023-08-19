@@ -60,6 +60,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                         Double money=((SellFo) context).getMoney_shop();
                         txtView.setText(String.valueOf(money+mData.get(holder.getAdapterPosition()).getPrice())+"€");
                         ((SellFo) context).setMoney_shop(money+mData.get(holder.getAdapterPosition()).getPrice());
+                        ((SellFo) context).update_quantite(mData.get(holder.getAdapterPosition()),quantite);
                     }
                 }
             });
@@ -78,13 +79,18 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                         Double money=((SellFo) context).getMoney_shop();
                         txtView.setText(String.valueOf(money-mData.get(holder.getAdapterPosition()).getPrice())+"€");
                         ((SellFo) context).setMoney_shop(money-mData.get(holder.getAdapterPosition()).getPrice());
+                        ((SellFo) context).update_quantite(mData.get(holder.getAdapterPosition()),quantite);
                     }
                 }
             });
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                TextView txtView =((Activity)context).findViewById(R.id.cash_money);
+                Double money=((SellFo) context).getMoney_shop();
+                Double minus=(mData.get(holder.getAdapterPosition()).getPrice())*(mData.get(holder.getAdapterPosition()).getUnits());
+                txtView.setText(String.valueOf(money-(minus)+"€"));
+                ((SellFo) context).setMoney_shop(money-minus);
                 mData.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
             }
@@ -115,7 +121,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             textProduct.setText(item.getNameProduct());
             textPrice.setText(String.valueOf(item.getPrice())+" €");
             textEan.setText("EAN: "+item.getEan());
-            textQuantite.setText("1");
+            textQuantite.setText(String.valueOf(item.getUnits()));
         }
     }
 }
