@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -161,6 +162,8 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
                 Log.i(TAG,"Finish buy go to payment");
                 //Forma de pago
                 init_paiment();
+            }else if(button.getTag().toString().equals("4")){//menu buton
+                drawerLayout.openDrawer(Gravity.LEFT);
             }
         }
     }

@@ -90,7 +90,7 @@
                         android:id="@+id/btn_info"
                         style="@style/auxbotom"
                         android:onClick="onDigitCLick"
-                        app:icon="@drawable/baseline_info_24"
+                        app:icon="@drawable/baseline_menu_open_24"
                         android:tag="4"
                         app:iconSize="40dp"
                         app:iconTint="@color/purple" />

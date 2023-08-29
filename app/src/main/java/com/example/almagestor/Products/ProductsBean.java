@@ -75,7 +75,7 @@ public class ProductsBean extends AppCompatActivity {
                 stockProduct = dialog.findViewById(R.id.editext_stock_product);
                 precioProduct = dialog.findViewById(R.id.editext_price_product);
                 barcodeProduct = dialog.findViewById(R.id.product_barcode);
-                dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_window);
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.border_output_box);
                 Close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
