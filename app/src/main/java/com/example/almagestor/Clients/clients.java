@@ -104,6 +104,8 @@ public class clients extends AppCompatActivity {
                         //CreateView ListAdapter
                         init_searchlist(list_DB);
                     }
+                }else{
+                    init_list();
                 }
             }
         });
