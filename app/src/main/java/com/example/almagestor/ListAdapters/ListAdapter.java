@@ -58,8 +58,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                         mData.get(holder.getAdapterPosition()).setUnits(quantite);
                         TextView txtView =((Activity)context).findViewById(R.id.cash_money);
                         Double money=((SellFo) context).getMoney_shop();
-                        txtView.setText(String.valueOf(money+mData.get(holder.getAdapterPosition()).getPrice())+"€");
-                        ((SellFo) context).setMoney_shop(money+mData.get(holder.getAdapterPosition()).getPrice());
+                        Double value=Double.valueOf(mData.get(holder.getAdapterPosition()).getPrice());
+                        Double sum=Math.round((money+value)*100.0)/100.0;
+                        txtView.setText(String.valueOf(sum)+"€");
+                        ((SellFo) context).setMoney_shop(sum);
                         ((SellFo) context).update_quantite(mData.get(holder.getAdapterPosition()),quantite);
                     }
                 }
@@ -77,8 +79,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                         mData.get(holder.getAdapterPosition()).setUnits(quantite);
                         TextView txtView =((Activity)context).findViewById(R.id.cash_money);
                         Double money=((SellFo) context).getMoney_shop();
-                        txtView.setText(String.valueOf(money-mData.get(holder.getAdapterPosition()).getPrice())+"€");
-                        ((SellFo) context).setMoney_shop(money-mData.get(holder.getAdapterPosition()).getPrice());
+                        Double value=Double.valueOf(mData.get(holder.getAdapterPosition()).getPrice());
+                        Double minus=Math.round((money-value)*100.0)/100.0;
+                        txtView.setText(String.valueOf(minus)+"€");
+                        ((SellFo) context).setMoney_shop(minus);
                         ((SellFo) context).update_quantite(mData.get(holder.getAdapterPosition()),quantite);
                     }
                 }
@@ -88,9 +92,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             public void onClick(View view) {
                 TextView txtView =((Activity)context).findViewById(R.id.cash_money);
                 Double money=((SellFo) context).getMoney_shop();
-                Double minus=(mData.get(holder.getAdapterPosition()).getPrice())*(mData.get(holder.getAdapterPosition()).getUnits());
-                txtView.setText(String.valueOf(money-(minus)+"€"));
-                ((SellFo) context).setMoney_shop(money-minus);
+                Double price=Math.round((mData.get(holder.getAdapterPosition()).getPrice())*100.0)/100.0;
+                Double multiply=price*(mData.get(holder.getAdapterPosition()).getUnits());
+                multiply=Math.round(multiply*100.0)/100.0;
+                Double minus=Math.round((money-multiply)*100.0)/100.0;
+                txtView.setText(String.valueOf(minus+"€"));
+                ((SellFo) context).setMoney_shop(minus);
                 mData.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
             }

@@ -341,7 +341,7 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
 
     }
     public void update_cashMoney(Double value){
-        money.setText(String.valueOf(money_shop+value)+"€");
+        money.setText(String.valueOf(Math.round((money_shop + value) * 100.0) / 100.0)+"€");
         Log.i(TAG,"Updated money shop"+money.toString());
     }
     public void update_quantite(ProductDataDTO product, int quantite){
