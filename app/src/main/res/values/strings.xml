@@ -68,6 +68,7 @@
     <string name="CerrarSesion">Cerrar Sesión </string>
     <string name="Synchro">Copia Seguridad</string>
     <string name="ProductNotFound">Código de barras no encontrado en el listado de productos</string>
+    <string name="MagasinNotCompleted">Parámetros de tienda no completados, rellenalos antes de facturar</string>
     <string name="UsuarioNuevo">¿Primer inicio de sesión?, Empieza ahora</string>
     <string name="areyouSure">¿Estás seguro de borrar este producto?</string>
     <string name="No">No</string>

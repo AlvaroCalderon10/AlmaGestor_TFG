@@ -242,20 +242,26 @@ public class SellFo extends AppCompatActivity implements NavigationView.OnNaviga
         try{
             SqliteModel obj=new SqliteModel();
             ShopDTO shopDT = obj.getShopdata(SellFo.this,"10014");
-            if(shopDT!=null){
+            if(shopDT.someNull() ==false){
                 Calendar calendar= Calendar.getInstance();
                 //Stock Thread update
                 StockThread thread1=new StockThread(this,elements);
                 thread1.run();
                 File file_pdf=objFacture.createPdf(elements,calendar,this.money_shop,shopDT);
                 //Thread works on inputs while execution doesnt stops.
-                BDThread thread=new BDThread(this,money_shop,calendar, file_pdf.toString(),elements);
-                thread.start();
                 if(file_pdf!=null){
+                    BDThread thread=new BDThread(this,money_shop,calendar, file_pdf.toString(),elements);
+                    Log.i(TAG,file_pdf.toString());
+                    thread.start();
                     showPDF(file_pdf);
+                }else{
+                    Log.w(TAG,"Facture creation faileture");
                 }
+
             }else{
-                //Shopdt vacios
+                //Dialog de aviso rellenar tienda
+                MsgalertDialog alert=new MsgalertDialog();
+                alert.initDialog(SellFo.this,getResources().getString(R.string.MagasinNotCompleted));
             }
 
         }catch (Exception e){

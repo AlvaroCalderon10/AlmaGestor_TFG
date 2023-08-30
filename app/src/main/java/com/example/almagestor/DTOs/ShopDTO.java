@@ -85,4 +85,17 @@ public class ShopDTO {
         this.nif = nif;
     }
 
+    public boolean someNull(){
+        if(codepostal==null){
+            return true;
+        }else if (nif==null){
+            return true;
+        }else if(shop_info_street == null){
+            return true;
+        } else if (shop_street==null) {
+            return true;
+        }
+        return false;
+    }
+
 }

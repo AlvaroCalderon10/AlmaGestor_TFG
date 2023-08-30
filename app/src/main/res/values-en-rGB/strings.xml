@@ -49,6 +49,7 @@
     <string name="CerrarSesion">Sign off</string>
     <string name="Synchro">Backup</string>
     <string name="ProductNotFound">Barcode not found in the product list</string>
+    <string name="MagasinNotCompleted">Store parameters not completed, fill them in before invoicing</string>
     <string name="UsuarioNuevo">First login? Start now</string>
     <string name="Register">Record</string>
     <string name="Welcome">Welcome!</string>
