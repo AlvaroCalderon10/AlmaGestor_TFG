@@ -99,7 +99,8 @@ public class ProductsBean extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         ProductDataDTO dto=new ProductDataDTO();
-                        dto=dto.create_validate_product(base64IMG,nameProduct.getText().toString(),barcodeProduct.getText().toString(),Integer.valueOf(stockProduct.getText().toString()),Integer.valueOf(precioProduct.getText().toString()));
+                        precioProduct.setText(precioProduct.getText().toString().replace(',','.'));
+                        dto=dto.create_validate_product(base64IMG,nameProduct.getText().toString(),barcodeProduct.getText().toString(),Integer.valueOf(stockProduct.getText().toString()),Double.valueOf(precioProduct.getText().toString()));
                         if(dto!=null){
                             init_img(dto,base64IMG);
                             //guardar en DB

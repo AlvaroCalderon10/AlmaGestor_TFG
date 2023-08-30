@@ -65,7 +65,7 @@ public class ProductDataDTO {
     public void setPrice(double price) {
         this.price = price;
     }
-    public ProductDataDTO create_validate_product(String img,String name, String ean,int stock,int price){
+    public ProductDataDTO create_validate_product(String img,String name, String ean,int stock,double price){
         ProductDataDTO dto=new ProductDataDTO();
         if(name.isEmpty()||ean.isEmpty()){
             return null;
